@@ -7,13 +7,9 @@ void showSnackBar(String? text, {Color? backgroundColor}) {
   final snackBar = SnackBar(
     content: Text(
       text,
-      selectionColor: Colors.white,
     ),
     backgroundColor: backgroundColor ?? Colors.red[900],
   );
-
-  // messageKey.currentState!.removeCurrentSnackBar();
-  // messageKey.currentState!.showSnackBar(snackBar);
 
   messageKey.currentState!
     ..removeCurrentSnackBar()

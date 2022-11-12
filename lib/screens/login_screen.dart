@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cnc_shop/screens/forgotpassword_screen.dart';
 import 'package:cnc_shop/service/auth_service.dart';
 import 'package:cnc_shop/themes/color.dart';
 import 'package:cnc_shop/widgets/input_decoration.dart';
@@ -72,13 +73,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               haveIcon: false))),
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 40),
-                      child: Text('Forgot Password?',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                              color: kColorsPurple)),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 40),
+                        child: Text('Forgot Password?',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600,
+                                color: kColorsPurple)),
+                      ),
                     ),
                   ),
                   Padding(
