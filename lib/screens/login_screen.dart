@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:cnc_shop/service/auth_service.dart';
 import 'package:cnc_shop/themes/color.dart';
+import 'package:cnc_shop/utils/showSnackBar.dart';
 import 'package:cnc_shop/widgets/input_decoration.dart';
 import 'package:cnc_shop/widgets/main_btn_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -99,7 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ])),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        googleLoginHandle(context: context);
+                      },
                       child: MainBtnWidget(
                           colorBtn: kColorsPurple,
                           textBtn: 'Login with Google',
@@ -185,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-  Future<void> loginHandle({required BuildContext context}) async {
+    Future<void> loginHandle({required BuildContext context}) async {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     if (formKey.currentState!.validate()) {
@@ -204,8 +208,37 @@ class _LoginScreenState extends State<LoginScreen> {
             .pushNamedAndRemoveUntil('/home', (route) => false);
       } on FirebaseAuthException catch (e) {
         log(e.message!);
+        log(e.code);
+        if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+          showSnackBar("The email and password is incorrect");
+        } else if (e.code == 'too-many-requests') {
+          showSnackBar("Too many invalid, Please try again later");
+        }
         Navigator.pop(context);
       }
     }
+    // showDialog(
   }
+
+  Future<void> googleLoginHandle({required BuildContext context}) async {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    // try {
+    await googleSignIn.signOut();
+    await googleSignIn.signIn();
+    // } on googleSignIn.FirebaseAuthException catch (e) {
+    //   log(e.message!);
+    // }
+
+    // await GoogleSignIn().signIn();
+  }
+
+  bool emailValidator(String email) => RegExp(
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+      .hasMatch(email);
+
 }
