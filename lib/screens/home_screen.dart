@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text('An error occure.'),
               );
             }
-            if (snapshot.data!.length == 0) {
+            if (!snapshot.hasData) {
               return Center(
                 child: Text('No Product'),
               );
