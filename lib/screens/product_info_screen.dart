@@ -1,4 +1,5 @@
 import 'package:cnc_shop/themes/color.dart';
+import 'package:cnc_shop/widgets/main_btn_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -73,7 +74,18 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                 Text('Description', style: Theme.of(context).textTheme.subtitle1),
               ],
             ),
-          )
+          ),
+          Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: InkWell(
+                    onTap: () {
+                      
+                    },
+                    child: MainBtnWidget(
+                        colorBtn: kColorsRed,
+                        textBtn: 'Logout',
+                        isTransparent: false,
+                        haveIcon: false)))
         ],
       ),
     );

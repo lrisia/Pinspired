@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                     child: MainBtnWidget(
                         colorBtn: kColorsRed,
-                        textBtn: 'Logout',
+                        textBtn: 'Buy now',
                         isTransparent: false,
                         haveIcon: false)))
           ],
