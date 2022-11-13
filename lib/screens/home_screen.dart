@@ -50,8 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
               // icon: Icon(Icons.add, color: Colors.black,),
               icon: SvgPicture.asset('assets/icons/add.svg')),
           IconButton(
-              onPressed: () {}, icon: SvgPicture.asset('assets/icons/msg.svg')),
-          IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
               },
