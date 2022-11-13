@@ -1,16 +1,18 @@
-# cnc_shop
+# tamjai-cnc_shop
 
-A new Flutter project.
+## สมาชิกทีม Tamjai
+___
+| ชื่อ-นามสกุล            | github                           | 
+|-------------------------|----------------------------------|
+| ปริภัทร์ มะลีแก้ว        | https://github.com/Pariphatt      |
+| กฤษฏ์ อัศวนิรมล         | https://github.com/KritAsawaniramol | 
+| พชร สุวราวรนาถ        | https://github.com/lrisia    |
 
-## Getting Started
+## Feature ที่ทำเพิ่ม
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. ระบบถอนเงิน
+2. ซื้อของได้ 
+3. Google SignIn (แต่ยังไม่สมบูรณ์มีปัญหาเรื่อง Authentication)
+5. เพิ่มรูปสินค้า
+6. withdraw 
+7. ลืมรหัสผ่านแล้วเปลี่ยนได
