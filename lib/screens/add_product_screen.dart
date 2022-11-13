@@ -61,12 +61,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
         // สร้างปุ่มด้านขวา
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                'assets/icons/msg.svg',
-                color: kColorsWhite,
-              )),
-          IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
               },

@@ -25,4 +25,14 @@ class StorageService {
       print(e);
     }
   }
+
+  Future<String?> getImage({required String path}) async {
+    try {
+      final imageUrl = await _firebaseStorage.ref(path).getDownloadURL();
+
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
 }
