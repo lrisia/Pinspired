@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AddProductScreen extends StatefulWidget {
   AddProductScreen({Key? key}) : super(key: key);
@@ -353,7 +354,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         price: double.parse(productPrice!),
         quantity: int.parse(productQuantity!),
         description: productDescription!,
-        photoURL: imageUrl);
+        photoURL: imageUrl,
+        uid: Uuid().v1());
     databaseService.addProduct(product: newProduct);
 
     Navigator.of(context).pop();

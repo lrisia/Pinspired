@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cnc_shop/model/product_model.dart';
 import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
@@ -62,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stream: databaseService.getStreamListProduct(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
+              log(snapshot.error.toString());
               return Center(
                 child: Text('An error occure.'),
               );
@@ -81,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, '/product-info', 
-                          arguments: '{"name": "${snapshot.data?[index]?.name}","price": "${snapshot.data?[index]?.price}","photoURL": "${snapshot.data?[index]?.photoURL}","description": "${snapshot.data?[index]?.description}","type": "${snapshot.data?[index]?.type}","quantity": "${snapshot.data?[index]?.quantity}"}'
+                          arguments: '{"name": "${snapshot.data?[index]?.name}","price": "${snapshot.data?[index]?.price}","photoURL": "${snapshot.data?[index]?.photoURL}","description": "${snapshot.data?[index]?.description}","type": "${snapshot.data?[index]?.type}","quantity": "${snapshot.data?[index]?.quantity}","uid": "${snapshot.data?[index]?.uid}"}'
                         );
                       },
                       child: Column(
