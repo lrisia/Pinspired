@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:cnc_shop/model/user_model.dart';
 import 'package:cnc_shop/service/auth_service.dart';
+import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
 import 'package:cnc_shop/utils/showSnackBar.dart';
 import 'package:cnc_shop/widgets/input_decoration.dart';
 import 'package:cnc_shop/widgets/main_btn_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
@@ -102,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   InkWell(
                       onTap: () {
-                        googleLoginHandle(context: context);
+                        _googleLoginHandle(context: context);
                       },
                       child: MainBtnWidget(
                           colorBtn: kColorsPurple,
@@ -189,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-    Future<void> loginHandle({required BuildContext context}) async {
+  Future<void> loginHandle({required BuildContext context}) async {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     if (formKey.currentState!.validate()) {
@@ -206,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             email: email, password: password);
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
-      } on FirebaseAuthException catch (e) {
+      } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         log(e.code);
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
@@ -220,25 +223,56 @@ class _LoginScreenState extends State<LoginScreen> {
     // showDialog(
   }
 
-  Future<void> googleLoginHandle({required BuildContext context}) async {
+  Future<void> _googleLoginHandle({required BuildContext context}) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
-    // try {
-    await googleSignIn.signOut();
-    await googleSignIn.signIn();
-    // } on googleSignIn.FirebaseAuthException catch (e) {
-    //   log(e.message!);
-    // }
+    try {
+      await googleSignIn.signOut();
 
-    // await GoogleSignIn().signIn();
+      await googleSignIn.signIn();
+
+      String email = googleSignIn.currentUser!.email;
+      final databaseService =
+          Provider.of<DatabaseService>(context, listen: false);
+
+      if (await databaseService.getUserFormEmail(email: email) == null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/registerGoogle', (route) => false,
+            arguments: email);
+      } else {
+        await authService.signInWithEmail(email: email);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
+      }
+    } catch (error) {
+      print(error);
+    }
   }
+
+  //GoogleSignIn _googleSignIn = GoogleSignIn(
+  //  scopes: [
+  //    'email',
+  //    'https://www.googleapis.com/auth/contacts.readonly',
+  //  ],
+  //);
+  //Future<void> _handleSignIn({required BuildContext context}) async {
+  //  try {
+  //    print('-----------------------------------------------------------');
+  //    await _googleSignIn.signIn(con);
+  //    print("googleSignIN: $_googleSignIn");
+  //    print('**************************************************************');
+  //  } catch (error) {
+  //    print(error);
+  //  }
+  //}
 
   bool emailValidator(String email) => RegExp(
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
       .hasMatch(email);
-
 }

@@ -13,16 +13,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
-  RegisterScreen({Key? key}) : super(key: key);
+class RegisterGoogleScreen extends StatefulWidget {
+  RegisterGoogleScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterGoogleScreen> createState() => _RegisterGoogleScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterGoogleScreenState extends State<RegisterGoogleScreen> {
   final formKey = GlobalKey<FormState>();
-  String? username, email, phone, password, confirmPassword, address;
+  String? phone, address;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CreateEmail(),
                   CreatePhone(),
                   CreateAddress(),
-                  CreatePassword(),
-                  CreateConfirmPassword(),
                 ],
               ),
             ),
@@ -116,49 +114,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget CreateUsername() {
+    final username =
+        ModalRoute.of(context)!.settings.arguments.toString().split("@")[0];
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+      child: Text('Username: $username',
           style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Username'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter username";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            username = value;
-          },
-        ));
+              color: kColorsPurple)),
+    );
   }
 
   Widget CreateEmail() {
+    final email =
+        ModalRoute.of(context)!.settings.arguments.toString().split(",")[0];
+    print(email.toString());
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+      child: Text('Email: $email',
           style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Email'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter Email";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            email = value;
-          },
-        ));
+              color: kColorsPurple)),
+    );
   }
 
   Widget CreatePhone() {
@@ -187,54 +166,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ));
   }
 
-  Widget CreatePassword() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Password'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter password";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            password = value;
-          },
-        ));
-  }
-
-  Widget CreateConfirmPassword() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Confirm Password'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter confirm password";
-            } else if (password != null && value != password) {
-              return "Those passwords didn't match. Try again.";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            confirmPassword = value;
-          },
-        ));
-  }
-
   Widget CreateAddress() {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
@@ -259,6 +190,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> registerHandle({required BuildContext context}) async {
+    final email = ModalRoute.of(context)!.settings.arguments;
+    final username =
+        ModalRoute.of(context)!.settings.arguments.toString().split("@")[1];
+
     final authService = Provider.of<AuthService>(context, listen: false);
 
     if (formKey.currentState!.validate()) {
@@ -269,12 +204,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           builder: ((context) => Center(
                 child: CircularProgressIndicator(strokeWidth: 4),
               )));
-
       try {
-        await authService.createUser(
+        await authService.createUserGoogle(
             email: email,
+            uid: email,
             username: username,
-            password: password,
             phone: phone,
             address: address);
         Navigator.of(context)
@@ -286,6 +220,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
   }
-
-
 }
