@@ -83,7 +83,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     },
                     child: MainBtnWidget(
                         colorBtn: kColorsRed,
-                        textBtn: 'Logout',
+                        textBtn: 'Buy now',
                         isTransparent: false,
                         haveIcon: false)))
         ],
