@@ -170,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
         child: TextFormField(
+          obscureText: true,
           keyboardType: TextInputType.text,
           autofocus: false,
           style: TextStyle(
@@ -210,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
         log(e.message!);
         log(e.code);
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-          showSnackBar("The email and password is incorrect");
+          showSnackBar("The email or password is incorrect");
         } else if (e.code == 'too-many-requests') {
           showSnackBar("Too many invalid, Please try again later");
         }
