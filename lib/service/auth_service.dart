@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cnc_shop/model/user_model.dart';
 import 'package:cnc_shop/service/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
@@ -22,6 +23,14 @@ class AuthService {
         email: email!, password: password!);
 
     final userUid = userCredential.user?.uid;
+    final user = await _databaseService.getUserFromUid(uid: userUid);
+    return user;
+  }
+
+Future<User?> signInWithEmail(
+      {required email}) async {
+  
+    final userUid = email;
     final user = await _databaseService.getUserFromUid(uid: userUid);
     return user;
   }
@@ -57,6 +66,27 @@ class AuthService {
     //TODO add new user to firestore, database
     await _databaseService.createUserFromModel(user: newUser);
 
+    return newUser;
+  }
+
+  Future<User> createUserGoogle(
+      {required email,
+      required username,
+      required uid,
+      phone,
+      address,
+      coin}) async {
+    final newUser = User(
+        uid: uid,
+        email: email,
+        username: username,
+        phone: phone,
+        address: address,
+        role: 'user',
+        coin: 0);
+
+    //TODO add new user to firestore, database
+    await _databaseService.createUserFromModel(user: newUser);
     return newUser;
   }
 }

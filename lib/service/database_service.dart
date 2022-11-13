@@ -11,6 +11,8 @@ class DatabaseService {
     await docUser.set(userInfo);
   }
 
+  
+
   Future<User?> getUserFromUid({required uid}) async {
     final docUser = _firebaseStore.collection('users').doc(uid);
     final snapshot = await docUser.get();
@@ -36,6 +38,21 @@ class DatabaseService {
         .map((doc) => Product.fromMap(productMap: doc.data()))
         .toList();
   }
+
+  Future<User?> getUserFormEmail({required email}) async {
+    final docUser = _firebaseStore.collection('users').doc(email);
+    final snapshot = await docUser.get();
+
+    if (!snapshot.exists) {
+      return null;
+    }
+
+    final userInfo = snapshot.data();
+    final user = User.fromMap(userMap: userInfo!);
+    return user;
+  }
+
+
 
   Stream<List<Product>> getStreamListProduct() => _firebaseStore
       .collection('products')

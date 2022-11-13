@@ -1,11 +1,16 @@
 import 'dart:developer';
 
+import 'package:cnc_shop/model/user_model.dart';
 import 'package:cnc_shop/service/auth_service.dart';
+import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
+import 'package:cnc_shop/utils/showSnackBar.dart';
 import 'package:cnc_shop/widgets/input_decoration.dart';
 import 'package:cnc_shop/widgets/main_btn_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -99,7 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ])),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        _googleLoginHandle(context: context);
+                      },
                       child: MainBtnWidget(
                           colorBtn: kColorsPurple,
                           textBtn: 'Login with Google',
@@ -202,10 +209,70 @@ class _LoginScreenState extends State<LoginScreen> {
             email: email, password: password);
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
-      } on FirebaseAuthException catch (e) {
+      } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
+        log(e.code);
+        if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+          showSnackBar("The email and password is incorrect");
+        } else if (e.code == 'too-many-requests') {
+          showSnackBar("Too many invalid, Please try again later");
+        }
         Navigator.pop(context);
       }
     }
+    // showDialog(
   }
+
+  Future<void> _googleLoginHandle({required BuildContext context}) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    try {
+      await googleSignIn.signOut();
+
+      await googleSignIn.signIn();
+
+      String email = googleSignIn.currentUser!.email;
+      final databaseService =
+          Provider.of<DatabaseService>(context, listen: false);
+
+      if (await databaseService.getUserFormEmail(email: email) == null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/registerGoogle', (route) => false,
+            arguments: email);
+      } else {
+        await authService.signInWithEmail(email: email);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  //GoogleSignIn _googleSignIn = GoogleSignIn(
+  //  scopes: [
+  //    'email',
+  //    'https://www.googleapis.com/auth/contacts.readonly',
+  //  ],
+  //);
+  //Future<void> _handleSignIn({required BuildContext context}) async {
+  //  try {
+  //    print('-----------------------------------------------------------');
+  //    await _googleSignIn.signIn(con);
+  //    print("googleSignIN: $_googleSignIn");
+  //    print('**************************************************************');
+  //  } catch (error) {
+  //    print(error);
+  //  }
+  //}
+
+  bool emailValidator(String email) => RegExp(
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+      .hasMatch(email);
 }

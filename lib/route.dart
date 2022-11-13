@@ -3,6 +3,7 @@ import 'package:cnc_shop/screens/home_screen.dart';
 import 'package:cnc_shop/screens/login_screen.dart';
 import 'package:cnc_shop/screens/product_info_screen.dart';
 import 'package:cnc_shop/screens/profile_screen.dart';
+import 'package:cnc_shop/screens/registerGoogle_screen.dart';
 import 'package:cnc_shop/screens/register_screen.dart';
 import 'package:cnc_shop/screens/top_up_screen.dart';
 import 'package:cnc_shop/screens/transaction_screen.dart';
@@ -19,4 +20,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/transaction": (BuildContext context) => TransactionScreen(),
   "/login": (BuildContext context) => LoginScreen(),
   "/register": (BuildContext context) => RegisterScreen(),
+  "/registerGoogle": (BuildContext context) => RegisterGoogleScreen()
 };
