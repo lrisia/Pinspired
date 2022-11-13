@@ -3,6 +3,12 @@ import 'package:cnc_shop/widgets/coin_btn_widget.dart';
 import 'package:cnc_shop/widgets/main_btn_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../model/user_model.dart';
+import '../service/auth_service.dart';
+import '../service/database_service.dart';
+import '../utils/showSnackBar.dart';
 
 class WithdrawScreen extends StatefulWidget {
   WithdrawScreen({Key? key}) : super(key: key);
@@ -14,9 +20,18 @@ class WithdrawScreen extends StatefulWidget {
 class _WithdrawScreenState extends State<WithdrawScreen> {
   int withdrawAmount = 0;
   List<int> amountList = [100, 300, 500, 700, 1000, 2000];
+  User? user;
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    authService.currentUser().then((currentUser) {
+      if (!mounted) return;
+      setState(() {
+        user = currentUser;
+      });
+    });
     return Scaffold(
       backgroundColor: kColorsCream,
       appBar: AppBar(
@@ -52,13 +67,73 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
           withdraw(),
           Positioned(top: 325, child: inputAmount()),
           Positioned(
-              bottom: 20,
-              width: MediaQuery.of(context).size.width,
+            bottom: 20,
+            width: MediaQuery.of(context).size.width,
+            child: InkWell(
+              onTap: () {
+                if (user!.coin! >= withdrawAmount) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Withdraw'),
+                      content: Text('Withdraw ${withdrawAmount} coin.'),
+                      actionsAlignment: MainAxisAlignment.spaceAround,
+                      actions: <Widget>[
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, 'Cancel');
+                            },
+                            child: Text('Cancel')),
+                        TextButton(
+                            onPressed: () {
+                              user!.coin = user!.coin! - withdrawAmount;
+
+                              final databaseService =
+                                  Provider.of<DatabaseService>(context,
+                                      listen: false);
+
+                              databaseService
+                                  .updateUserFromUid(
+                                      uid: user!.uid, user: user!)
+                                  .then((value) {
+                                // success state
+                                showSnackBar('success',
+                                    backgroundColor: Colors.green);
+                              }).catchError((e) {
+                                //handle error
+                                showSnackBar(e, backgroundColor: Colors.red);
+                              });
+                              Navigator.pop(context, 'Ok');
+                            },
+                            child: Text('Ok')),
+                      ],
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                        title: Text('Withdraw'),
+                        content:
+                            Text("You don't have enough money to withdraw."),
+                        actionsAlignment: MainAxisAlignment.spaceAround,
+                        actions: <Widget>[
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'Ok');
+                              },
+                              child: Text('Ok')),
+                        ]),
+                  );
+                }
+              },
               child: MainBtnWidget(
-                  colorBtn: kColorsRed,
+                  colorBtn: kColorsPurple,
                   textBtn: 'Withdraw',
                   isTransparent: true,
-                  haveIcon: false))
+                  haveIcon: false),
+            ),
+          )
         ],
       ),
     );
@@ -167,10 +242,10 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Input Amount',
+              Text('Withdraw Amount',
                   style: Theme.of(context).textTheme.headline4),
               Text(
-                '\$ 300',
+                '\$ $withdrawAmount',
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w700,
