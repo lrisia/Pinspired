@@ -1,6 +1,9 @@
+import 'package:cnc_shop/model/transactionn_model.dart';
+import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class TransactionScreen extends StatefulWidget {
   TransactionScreen({Key? key}) : super(key: key);
@@ -12,6 +15,8 @@ class TransactionScreen extends StatefulWidget {
 class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
     return Scaffold(
       backgroundColor: kColorsCream,
       appBar: AppBar(
@@ -26,10 +31,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
           },
         ),
         actions: [
-          IconButton(
-            onPressed: (){},
-            icon: SvgPicture.asset('assets/icons/msg.svg', color: kColorsWhite)
-          ),
           IconButton(
             onPressed: (){
               Navigator.pushNamed(context, '/profile');
@@ -90,7 +91,20 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           decoration: BoxDecoration(color: kColorsCream),
                         ),
                       ),
-                      // TO DO: Create transaction
+                      // TODO: Create transaction
+                      Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: StreamBuilder<List<Transactionn?>>(
+                          stream: databaseService.getStreamListTransactions(),
+                          builder: (context, snapshot) {
+                            return ListView.builder(
+                              itemBuilder: (BuildContext context, int index){
+                                return Text('Transaction ${snapshot.data![index]!.coin}', style: Theme.of(context).textTheme.subtitle1);
+                                }
+                              );
+                            },
+                          )
+                        ),
                     ],
                   ),
                 ),

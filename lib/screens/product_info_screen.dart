@@ -189,7 +189,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                     child: Text('Cancel')),
                                 TextButton(
                                     onPressed: () {
-                                      log(user!.uid);
                                       Navigator.pop(context, 'Ok');
                                       if (user!.coin! <
                                           _buyamount *
@@ -205,16 +204,28 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                 context,
                                                 listen: false);
 
-                                        databaseService
-                                            .updateUserFromUid(
-                                                uid: user!.uid, user: user!)
+                                        databaseService.updateUserFromUid(uid: user!.uid, user: user!)
                                             .then((value) {
-                                          // success state
-                                          showSnackBar('Buy success',
-                                              backgroundColor: Colors.green);
+                                              // TODO: make product decrease quantity
+                                              data['quantity'] = int.parse(data['quantity']) - _buyamount;
+                                              data['price'] = double.parse(data['price']);
+                                              data['type'] = data['type']!.split(".")[1];
+                                              databaseService.updateProductFromUid(product: data).then((value) {
+                                                // success state
+                                                showSnackBar('Buy success',
+                                                    backgroundColor: Colors.green);
+                                                Navigator.pushNamed(context, '/home');
+                                                log('update product success');
+                                              }).catchError((e) {
+                                                showSnackBar(e.toString(),
+                                                  backgroundColor: Colors.red);
+                                                // error state in decrease quantity step
+                                                log(e.toString());
+                                                log('update product fail');
+                                              });
                                         }).catchError((e) {
                                           // handle error
-                                          showSnackBar(e,
+                                          showSnackBar(e.toString(),
                                               backgroundColor: Colors.red);
                                         });
                                       }
