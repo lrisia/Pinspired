@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cnc_shop/model/user_model.dart';
+import 'package:cnc_shop/screens/forgotpassword_screen.dart';
 import 'package:cnc_shop/service/auth_service.dart';
 import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
@@ -77,13 +78,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               haveIcon: false))),
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 40),
-                      child: Text('Forgot Password?',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                              color: kColorsPurple)),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 40),
+                        child: Text('Forgot Password?',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600,
+                                color: kColorsPurple)),
+                      ),
                     ),
                   ),
                   Padding(
@@ -173,6 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
         child: TextFormField(
+          obscureText: true,
           keyboardType: TextInputType.text,
           autofocus: false,
           style: TextStyle(
@@ -213,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
         log(e.message!);
         log(e.code);
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-          showSnackBar("The email and password is incorrect");
+          showSnackBar("The email or password is incorrect");
         } else if (e.code == 'too-many-requests') {
           showSnackBar("Too many invalid, Please try again later");
         }

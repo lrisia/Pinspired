@@ -191,6 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
         child: TextFormField(
+          obscureText: true,
           keyboardType: TextInputType.text,
           autofocus: false,
           style: TextStyle(
@@ -214,6 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
         child: TextFormField(
+          obscureText: true,
           keyboardType: TextInputType.text,
           autofocus: false,
           style: TextStyle(

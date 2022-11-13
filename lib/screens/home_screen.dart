@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cnc_shop/model/product_model.dart';
 import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/themes/color.dart';
@@ -50,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
               // icon: Icon(Icons.add, color: Colors.black,),
               icon: SvgPicture.asset('assets/icons/add.svg')),
           IconButton(
-              onPressed: () {}, icon: SvgPicture.asset('assets/icons/msg.svg')),
-          IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
               },
@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stream: databaseService.getStreamListProduct(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
+              log(snapshot.error.toString());
               return Center(
                 child: Text('An error occure.'),
               );
@@ -82,7 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(6),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product-info');
+                        Navigator.pushNamed(context, '/product-info', 
+                          arguments: '{"name": "${snapshot.data?[index]?.name}","price": "${snapshot.data?[index]?.price}","photoURL": "${snapshot.data?[index]?.photoURL}","description": "${snapshot.data?[index]?.description}","type": "${snapshot.data?[index]?.type}","quantity": "${snapshot.data?[index]?.quantity}","uid": "${snapshot.data?[index]?.uid}"}'
+                        );
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +93,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           AspectRatio(
                             aspectRatio: 1,
                             child: Container(
-                              decoration: BoxDecoration(color: kColorsRed),
+                            decoration: BoxDecoration(
+                              color: kColorsCream,
+                              image: snapshot.data?[index]?.photoURL != ""
+                                ? DecorationImage(
+                                    image: NetworkImage(snapshot.data?[index]?.photoURL ?? ''),
+                                    fit: BoxFit.cover)
+                                : null),
                             ),
                           ),
                           SizedBox(
@@ -103,13 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(
                             height: 6,
                           ),
-                          Text(
-                            '\$price',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: kColorsPurple),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('฿ ${snapshot.data![index]!.price}', style: Theme.of(context).textTheme.subtitle1),
+                              Text('${snapshot.data![index]!.type}'.split('.')[1], style: Theme.of(context).textTheme.subtitle1),
+                            ],
+                          ),
                         ],
                       ),
                     ),

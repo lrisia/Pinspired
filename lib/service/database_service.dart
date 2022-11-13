@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cnc_shop/model/product_model.dart';
+import 'package:cnc_shop/model/transactionn_model.dart';
 import 'package:cnc_shop/model/user_model.dart';
 
 class DatabaseService {
@@ -69,4 +73,24 @@ class DatabaseService {
 
     await docProduct.set(productInfo);
   }
+
+  Future<void> updateProductFromUid({required product}) async {
+    // final String productUid = product['uid'];
+    // log("product uid: $productUid");
+
+    return _firebaseStore.collection('products').doc(product['uid']).update(product);
+    // final Map<String, dynamic> converted = getProduct.docs.forEach()
+
+
+    // log("product: " + getProduct.toString());
+    // await docProduct.update(productInfo);
+  }
+
+  Stream<List<Transactionn>> getStreamListTransactions() => _firebaseStore
+      .collection('transactions')
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) {
+            // print(doc.data());
+            return Transactionn.fromMap(transactionMap: doc.data());
+          }).toList());
 }
