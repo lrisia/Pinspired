@@ -6,3 +6,4 @@ const Color kColorsRed = Color.fromARGB(255, 243, 119, 121);
 const Color kColorsGrey = Color.fromARGB(255, 178, 175, 174);
 const Color kColorsBlack = Color.fromARGB(255, 38, 38, 38);
 const Color kColorsWhite = Colors.white;
+const Color kColorsSky = Color(0XFF73CFED);
