@@ -133,7 +133,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() {
                 formVaidate = true;
               });
-
               return "Please enter username";
             }
             return null;
@@ -160,7 +159,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() {
                 formVaidate = true;
               });
-
               return "Please enter Email";
             }
             return null;
