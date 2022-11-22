@@ -58,74 +58,45 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: SvgPicture.asset('assets/icons/me.svg')),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(6),
-        child: StreamBuilder<List<Product?>>(
-          stream: databaseService.getStreamListProduct(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              log(snapshot.error.toString());
-              return Center(
-                child: Text('An error occure.'),
-              );
-            }
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text('No Product'),
-              );
-            }
-            return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 0.75),
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/product-info', 
-                          arguments: '{"name": "${snapshot.data?[index]?.name}","price": "${snapshot.data?[index]?.price}","photoURL": "${snapshot.data?[index]?.photoURL}","description": "${snapshot.data?[index]?.description}","type": "${snapshot.data?[index]?.type}","quantity": "${snapshot.data?[index]?.quantity}","uid": "${snapshot.data?[index]?.uid}"}'
-                        );
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1,
-                            child: Container(
-                            decoration: BoxDecoration(
-                              color: kColorsCream,
-                              image: snapshot.data?[index]?.photoURL != ""
-                                ? DecorationImage(
-                                    image: NetworkImage(snapshot.data?[index]?.photoURL ?? ''),
-                                    fit: BoxFit.cover)
-                                : null),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            '${snapshot.data![index]!.name}',
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('฿ ${snapshot.data![index]!.price}', style: Theme.of(context).textTheme.subtitle1),
-                              Text('${snapshot.data![index]!.type}'.split('.')[1], style: Theme.of(context).textTheme.subtitle1),
-                            ],
-                          ),
-                        ],
-                      ),
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 110),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "My Family",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
-                  );
-                });
-          },
-        ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Home",
+                      style: TextStyle(
+                          color: Color(0xffa29aac),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                IconButton(
+                    onPressed: () {},
+                    alignment: Alignment.topCenter,
+                    icon: SvgPicture.asset('assets/icons/me.svg')),
+              ],
+            ),
+          ),
+          SizedBox(height: 40),
+          //TODO Grid Dashboard
+          // GridDashboard()
+        ],
       ),
     );
   }

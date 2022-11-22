@@ -22,102 +22,122 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
+  bool formVaidate = false;
+  var size = [0, 0, 0, 0];
+  var _scollSize = 0.0;
   String? username, email, phone, password, confirmPassword, address;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorsPurple,
-      appBar: AppBar(
-        flexibleSpace: Image(
-          image: AssetImage("assets/bg.jpg"),
-          fit: BoxFit.cover,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 60,
-        leading: IconButton(
-          icon: SvgPicture.asset('assets/icons/back.svg', color: kColorsWhite),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: InkWell(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            color: kColorsWhite,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+   
+      //Color(0xFF68CBEB),
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromARGB(255, 4, 5, 5),
+      //   elevation: 0,
+      // ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.2, 0.1),
+            colors: [
+              Color(0xFF68CBEB),
+              Color.fromARGB(255, 255, 255, 255),
+            ],
           ),
-          child: ListView(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 40, top: 40, bottom: 20),
-              child: Text('Register',
-                  style: Theme.of(context).textTheme.headline1),
-            ),
-            Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  CreateUsername(),
-                  CreateEmail(),
-                  CreatePhone(),
-                  CreateAddress(),
-                  CreatePassword(),
-                  CreateConfirmPassword(),
-                ],
+        ),
+        
+        child: Stack(
+          //Image.asset("assets/img.png", width: 170, height: 300),
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/register_photo.png"),
+                    alignment: Alignment(0, -0.81)),
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: DraggableScrollableSheet(
+                  initialChildSize: 0.6,
+                  minChildSize: 0.6,
+                  maxChildSize: formVaidate == false ? 0.6 : 0.6 + _scollSize,
+                  builder: (_, scrollController) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: scrollController,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 0, top: 20, bottom: 20),
+                              child: Text('Sign up new account',
+                                  style: Theme.of(context).textTheme.headline5),
+                            ),
+                            Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  CreateEmail(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreateUsername(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreatePassword(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreateConfirmPassword(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, bottom: 20),
+                              child: InkWell(
+                                onTap: () {
+                                  registerHandle(context: context);
+                                },
+                                child: MainBtnWidget(
+                                  colorBtn: kColorsSky,
+                                  textBtn: 'Sign Up',
+                                  isTransparent: false,
+                                  haveIcon: false,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20),
-                child: InkWell(
-                    onTap: () {
-                      registerHandle(context: context);
-                    },
-                    child: MainBtnWidget(
-                        colorBtn: kColorsPurple,
-                        textBtn: 'Sign Up',
-                        isTransparent: false,
-                        haveIcon: false))),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-              child: Container(
-                  child: Row(children: [
-                Expanded(child: Divider(color: kColorsGrey)),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text("or",
-                      style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                          color: kColorsGrey)),
-                ),
-                Expanded(child: Divider(color: kColorsGrey)),
-              ])),
-            ),
-            SizedBox(height: 10),
-            InkWell(
-                onTap: () {},
-                child: MainBtnWidget(
-                    colorBtn: kColorsPurple,
-                    textBtn: 'Sign Up with Google',
-                    isTransparent: true,
-                    haveIcon: true)),
-            SizedBox(height: 20),
-          ]),
+          ],
         ),
       ),
-    );
+      );
+    
   }
 
   Widget CreateUsername() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 40),
         child: TextFormField(
           keyboardType: TextInputType.text,
           autofocus: false,
@@ -128,8 +148,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Username'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
+              size[0] = 1;
               return "Please enter username";
             }
+            size[0] = 0;
             return null;
           },
           onChanged: (value) {
@@ -140,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget CreateEmail() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 40),
         child: TextFormField(
           keyboardType: TextInputType.text,
           autofocus: false,
@@ -151,8 +176,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Email'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
+              size[1] = 1;
               return "Please enter Email";
             }
+            size[1] = 0;
             return null;
           },
           onChanged: (value) {
@@ -161,35 +191,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ));
   }
 
-  Widget CreatePhone() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          keyboardType: TextInputType.number,
-          autofocus: false,
-          style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Phone'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter phone";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            phone = value;
-          },
-        ));
-  }
-
   Widget CreatePassword() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 40),
         child: TextFormField(
           obscureText: true,
           keyboardType: TextInputType.text,
@@ -201,8 +205,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Password'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
+              size[2] = 1;
               return "Please enter password";
             }
+            size[2] = 0;
             return null;
           },
           onChanged: (value) {
@@ -213,7 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget CreateConfirmPassword() {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 40),
         child: TextFormField(
           obscureText: true,
           keyboardType: TextInputType.text,
@@ -225,37 +234,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Confirm Password'),
           validator: (value) {
             if (value!.isEmpty) {
+              formVaidate = true;
+              size[3] = 1;
               return "Please enter confirm password";
             } else if (password != null && value != password) {
+              size[3] = 1;
               return "Those passwords didn't match. Try again.";
             }
+            size[3] = 0;
             return null;
           },
           onChanged: (value) {
             confirmPassword = value;
-          },
-        ));
-  }
-
-  Widget CreateAddress() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-              color: kColorsPurple),
-          decoration: InputDecorationWidget(context, 'Address'),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Please enter Address";
-            }
-            return null;
-          },
-          onChanged: (value) {
-            address = value;
           },
         ));
   }
@@ -265,7 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-
+      
       showDialog(
           context: context,
           builder: ((context) => Center(
@@ -286,8 +276,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         showSnackBar(e.message);
         Navigator.of(context).pop();
       }
+    } else {
+      // TODO: check error amount for increase size of form
+      var sum = 0;
+      size.forEach((e) => sum += e);
+      _scollSize = sum * 0.026;
     }
   }
-
-
 }
