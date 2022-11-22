@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cncx.cnc_shop">
    <application
-        android:label="cnc_shop"
+        android:label="Pinspired"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

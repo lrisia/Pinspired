@@ -34,27 +34,30 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/bg.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+              image: DecorationImage(
+                  image: AssetImage('assets/pinsprised_logo.png'),
+                  alignment: Alignment(0, -0.9)),
+              color: Color.fromARGB(200, 119, 209, 237)),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.75,
               decoration: BoxDecoration(
-                color: kColorsWhite,
+                color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
               ),
               child: ListView(
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 40, top: 20, bottom: 20),
-                    child: Text('CNC Shop',
-                        style: Theme.of(context).textTheme.headline1),
+                        const EdgeInsets.only(left: 0, top: 20, bottom: 20),
+                    child: Text('Login Now',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
                   ),
                   Form(
                     key: formKey,
@@ -72,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             loginHandle(context: context);
                           },
                           child: MainBtnWidget(
-                              colorBtn: kColorsPurple,
+                              colorBtn: Colors.blue,
                               textBtn: 'Login',
                               isTransparent: false,
                               haveIcon: false))),
@@ -89,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600,
-                                color: kColorsPurple)),
+                                color: Colors.blue)),
                       ),
                     ),
                   ),
@@ -101,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Expanded(child: Divider(color: kColorsGrey)),
                       Padding(
                         padding: EdgeInsets.all(10),
-                        child: Text("or",
+                        child: Text("Don\'t have an account?",
                             style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600,
@@ -110,40 +113,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       Expanded(child: Divider(color: kColorsGrey)),
                     ])),
                   ),
-                  InkWell(
-                      onTap: () {
-                        _googleLoginHandle(context: context);
-                      },
-                      child: MainBtnWidget(
-                          colorBtn: kColorsPurple,
-                          textBtn: 'Login with Google',
-                          isTransparent: true,
-                          haveIcon: true)),
-                  SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
-                        padding: EdgeInsets.only(right: 40),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text('Don\'t have an account? ',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: kColorsGrey)),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, '/register');
-                                  },
-                                  child: Text('Sign Up',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: kColorsPurple))),
-                            ])),
-                  ),
-                  SizedBox(height: 20)
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/register');
+                            },
+                            child: MainBtnWidget(
+                                colorBtn: Colors.blue,
+                                textBtn: 'Register',
+                                isTransparent: false,
+                                haveIcon: false))),
+                  )
                 ],
               ),
             ),
@@ -216,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await authService.signInWithEmailAndPassword(
             email: email, password: password);
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+            .pushNamedAndRemoveUntil('/homepage', (route) => false);
       } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         log(e.code);
@@ -256,29 +239,12 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         await authService.signInWithEmail(email: email);
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+            .pushNamedAndRemoveUntil('/homepage', (route) => false);
       }
     } catch (error) {
       print(error);
     }
   }
-
-  //GoogleSignIn _googleSignIn = GoogleSignIn(
-  //  scopes: [
-  //    'email',
-  //    'https://www.googleapis.com/auth/contacts.readonly',
-  //  ],
-  //);
-  //Future<void> _handleSignIn({required BuildContext context}) async {
-  //  try {
-  //    print('-----------------------------------------------------------');
-  //    await _googleSignIn.signIn(con);
-  //    print("googleSignIN: $_googleSignIn");
-  //    print('**************************************************************');
-  //  } catch (error) {
-  //    print(error);
-  //  }
-  //}
 
   bool emailValidator(String email) => RegExp(
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
