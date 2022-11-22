@@ -22,6 +22,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
+  bool formVaidate = false;
   String? username, email, phone, password, confirmPassword, address;
 
   @override
@@ -32,13 +33,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       //   backgroundColor: Color.fromARGB(255, 4, 5, 5),
       //   elevation: 0,
       // ),
-      body: Container(
+      body: Stack(
         //Image.asset("assets/img.png", width: 170, height: 300),
-        child: InkWell(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Container(
+        children: [
+          Container(
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/register_photo.png"),
@@ -46,62 +44,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.65,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: ListView(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30, top: 0, bottom: 20),
-                    child: Text('Sign up new account',
-                        style: Theme.of(context).textTheme.headline5),
-                  ),
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        CreateEmail(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CreateUsername(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CreatePassword(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CreateConfirmPassword(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
+              child: DraggableScrollableSheet(
+                initialChildSize: 0.58,
+                minChildSize: 0.58,
+                maxChildSize: formVaidate == false ? 0.58 : 0.7,
+                builder: (_, scrollController) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.65,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30)),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    child: InkWell(
-                      onTap: () {
-                        registerHandle(context: context);
-                      },
-                      child: MainBtnWidget(
-                        colorBtn: kColorsSky,
-                        textBtn: 'Sign Up',
-                        isTransparent: false,
-                        haveIcon: false,
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30, top: 0, bottom: 20),
+                            child: Text('Sign up new account',
+                                style: Theme.of(context).textTheme.headline5),
+                          ),
+                          Form(
+                            key: formKey,
+                            child: Column(
+                              children: [
+                                CreateEmail(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CreateUsername(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CreatePassword(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CreateConfirmPassword(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: InkWell(
+                              onTap: () {
+                                registerHandle(context: context);
+                              },
+                              child: MainBtnWidget(
+                                colorBtn: kColorsSky,
+                                textBtn: 'Sign Up',
+                                isTransparent: false,
+                                haveIcon: false,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ]),
+                  );
+                },
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -119,6 +130,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Username'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
+
               return "Please enter username";
             }
             return null;
@@ -142,6 +157,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Email'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
+
               return "Please enter Email";
             }
             return null;
@@ -166,6 +185,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Password'),
           validator: (value) {
             if (value!.isEmpty) {
+              setState(() {
+                formVaidate = true;
+              });
               return "Please enter password";
             }
             return null;
@@ -190,6 +212,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecorationWidget(context, 'Confirm Password'),
           validator: (value) {
             if (value!.isEmpty) {
+              formVaidate = true;
+
               return "Please enter confirm password";
             } else if (password != null && value != password) {
               return "Those passwords didn't match. Try again.";
