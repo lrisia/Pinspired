@@ -44,9 +44,7 @@ Future<User?> signInWithEmail(
       {required email,
       required username,
       required password,
-      phone,
-      address,
-      coin}) async {
+      coin, coverImageUrl}) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
@@ -58,10 +56,8 @@ Future<User?> signInWithEmail(
         uid: firebaseUser!.uid,
         email: email,
         username: username,
-        phone: phone,
-        address: address,
-        role: 'user',
-        coin: 0);
+        coin: 0,
+        coverImageUrl: "");
 
     //TODO add new user to firestore, database
     await _databaseService.createUserFromModel(user: newUser);
@@ -80,9 +76,6 @@ Future<User?> signInWithEmail(
         uid: uid,
         email: email,
         username: username,
-        phone: phone,
-        address: address,
-        role: 'user',
         coin: 0);
 
     //TODO add new user to firestore, database

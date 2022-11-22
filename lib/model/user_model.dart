@@ -2,36 +2,28 @@ class User {
   final String uid;
   final String email;
   final String username;
-  final String? role;
-  final String? phone;
-  final String? address;
   double? coin;
+  String? coverImageUrl;
 
   User(
       {required this.uid,
       required this.email,
       required this.username,
-      this.role,
-      this.phone,
-      this.address,
-      this.coin});
+      this.coin,
+      this.coverImageUrl});
 
   User.fromMap({required Map<String, dynamic> userMap})
       : uid = userMap['uid'],
         email = userMap['email'],
         username = userMap['username'],
-        role = userMap['role'],
-        phone = userMap['phone'],
-        address = userMap['address'],
-        coin = userMap['coin'];
+        coin = userMap['coin'],
+        coverImageUrl = userMap['coverImageUrl'];
 
   Map<String, dynamic> toMap() => {
         'uid': uid,
         'email': email,
         'username': username,
-        'role': role ?? '',
-        'phone': phone ?? '',
-        'address': address ?? '',
-        'coin': coin ?? 0
+        'coin': coin ?? 0,
+        'coverImageUrl': coverImageUrl ?? ""
       };
 }

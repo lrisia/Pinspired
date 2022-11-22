@@ -266,11 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await authService.createUser(
             email: email,
             username: username,
-            password: password,
-            phone: phone,
-            address: address);
+            password: password,);
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+            .pushNamedAndRemoveUntil('/homepage', (route) => false);
       } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         showSnackBar(e.message);

@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "974545611040",
-    "project_id": "cnc-shop-caa9d",
-    "storage_bucket": "cnc-shop-caa9d.appspot.com"
+    "project_number": "457049705239",
+    "project_id": "pinspired-5e022",
+    "storage_bucket": "pinspired-5e022.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:974545611040:android:ec2666972c0555fa3acf45",
+        "mobilesdk_app_id": "1:457049705239:android:cc1d3cd329a58f74d78552",
         "android_client_info": {
-          "package_name": "com.cncx.cnc_shop"
+          "package_name": "devcamp.pinspired"
         }
       },
       "oauth_client": [
         {
-          "client_id": "974545611040-e4ueu673ointkn0j9gm1qvdf374t3m1q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cncx.cnc_shop",
-            "certificate_hash": "5168ebb7b201ca639bbef24f5b327d77c6f81d54"
-          }
-        },
-        {
-          "client_id": "974545611040-3be88otoorms67vpl3s6id1nn4dg0ofk.apps.googleusercontent.com",
+          "client_id": "457049705239-ef2q72vfqsveqcf2jcqk94m69e1ttoms.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDPR06LNGcb0ddYi6KERTKP3T0vurd5fxs"
+          "current_key": "AIzaSyAEdiclTQcK9LxEEbGU3VWxLAymig7x_jk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "974545611040-3be88otoorms67vpl3s6id1nn4dg0ofk.apps.googleusercontent.com",
+              "client_id": "457049705239-ef2q72vfqsveqcf2jcqk94m69e1ttoms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

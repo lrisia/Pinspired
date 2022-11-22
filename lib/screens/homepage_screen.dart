@@ -75,8 +75,8 @@ class gridView extends StatelessWidget {
   Widget masonryLayout(BuildContext context) {
     return MasonryGridView.builder(
       scrollDirection: Axis.vertical,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
+      crossAxisSpacing: 3,
+      mainAxisSpacing: 3,
       gridDelegate:
           SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemCount: 30,
@@ -86,7 +86,7 @@ class gridView extends StatelessWidget {
             print(1);
           }),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             child: Image.network(
                 "https://source.unsplash.com/random/?Cryptocurrency&$index"),
           ),
