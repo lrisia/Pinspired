@@ -11,7 +11,7 @@ InputDecoration InputDecorationWidget(context, labelText) {
       contentPadding: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       enabledBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(10),
-        borderSide: BorderSide(color: kColorsGrey, width: 1),
+        borderSide: BorderSide(color: Color.fromARGB(255, 104, 104, 104), width: 1),
       ),
       focusedBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(10),

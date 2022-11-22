@@ -8,7 +8,8 @@ class MainBtnWidget extends StatelessWidget {
   bool isTransparent;
   bool haveIcon;
   double height;
-  MainBtnWidget({Key? key, required this.colorBtn, required this.textBtn, required this.isTransparent, required this.haveIcon,  this.height=43, this.textColor=kColorsWhite}) : super(key: key);
+  FontWeight fontWeight;
+  MainBtnWidget({Key? key, required this.colorBtn, required this.textBtn, required this.isTransparent, required this.haveIcon,  this.height=43, this.textColor=kColorsWhite, this.fontWeight=FontWeight.w600}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class MainBtnWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              textBtn, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: textColor),
+              textBtn, style: TextStyle(fontSize: 16.0, fontWeight: fontWeight, color: textColor),
             ),
           ),
         )

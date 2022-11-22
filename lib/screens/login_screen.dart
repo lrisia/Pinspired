@@ -34,17 +34,33 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Container(
           decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment(0.2, 0.1),
+                colors: [
+                  Color(0xFF68CBEB),
+                  Color.fromARGB(255, 255, 255, 255),
+                ],
+              ),
               image: DecorationImage(
                   image: AssetImage('assets/pinsprised_logo.png'),
                   alignment: Alignment(0, -0.9)),
-              color: Color.fromARGB(200, 119, 209, 237)),
+              color: kColorsSky),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.75,
               decoration: BoxDecoration(
-                color: Colors.white,
+                gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFE5F8FE),
+              Color(0xFFA9E0F1).withOpacity(0),
+            ],
+          ),
+
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
               ),
               child: ListView(
@@ -54,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const EdgeInsets.only(left: 0, top: 20, bottom: 20),
                     child: Text('Login Now',
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: kColorsSky,
                             fontSize: 30,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center),
@@ -75,11 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             loginHandle(context: context);
                           },
                           child: MainBtnWidget(
-                              colorBtn: Color(0xFF70CEEC),
-                              textBtn: 'LOGIN',
-                              isTransparent: false,
-                              haveIcon: false,
-                              height: 50,))),
+                            colorBtn: Color(0xFF70CEEC),
+                            textBtn: 'LOGIN',
+                            isTransparent: false,
+                            haveIcon: false,
+                            height: 50,
+                          ))),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
@@ -93,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.blue)),
+                                color: kColorsSky)),
                       ),
                     ),
                   ),
@@ -123,12 +140,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, '/register');
                             },
                             child: MainBtnWidget(
-                                colorBtn: Color.fromARGB(255, 255, 255, 255),
-                                textBtn: 'SIGN UP',
-                                textColor: Color.fromARGB(200, 119, 209, 237),
-                                isTransparent: false,
-                                haveIcon: false,
-                                height: 50,))),
+                              colorBtn: Color.fromARGB(255, 255, 255, 255),
+                              textBtn: 'Sign Up',
+                              fontWeight: FontWeight.w800,
+                              textColor: Color.fromARGB(200, 119, 209, 237),
+                              isTransparent: false,
+                              haveIcon: false,
+                              height: 50,
+                            ))),
                   )
                 ],
               ),
