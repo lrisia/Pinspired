@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.65,
                 decoration: BoxDecoration(
-                  color: Color(0xFFE5F8FE),
+                  color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                 ),
                 child: ListView(children: [

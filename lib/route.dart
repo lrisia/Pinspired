@@ -7,10 +7,11 @@ import 'package:cnc_shop/screens/registerGoogle_screen.dart';
 import 'package:cnc_shop/screens/register_screen.dart';
 import 'package:cnc_shop/screens/top_up_screen.dart';
 import 'package:cnc_shop/screens/transaction_screen.dart';
+import 'package:cnc_shop/screens/upload_screen.dart';
 import 'package:cnc_shop/screens/withdraw_screen.dart';
 import 'package:flutter/material.dart';
 
-final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
+final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/home": (BuildContext context) => HomeScreen(),
   "/add-product": (BuildContext context) => AddProductScreen(),
   "/product-info": (BuildContext context) => ProductInfoScreen(),
@@ -20,5 +21,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/transaction": (BuildContext context) => TransactionScreen(),
   "/login": (BuildContext context) => LoginScreen(),
   "/register": (BuildContext context) => RegisterScreen(),
-  "/registerGoogle": (BuildContext context) => RegisterGoogleScreen()
+  "/registerGoogle": (BuildContext context) => RegisterGoogleScreen(),
+  "/upload": (BuildContext context) => UploadScreen(),
 };
