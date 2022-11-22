@@ -44,7 +44,7 @@ class MainBtnWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width - 80,
           decoration: BoxDecoration(
             color: colorBtn,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(50)),
           ),
           child: Center(
             child: Text(
