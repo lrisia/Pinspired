@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: MainBtnWidget(
                                 colorBtn: Color.fromARGB(255, 255, 255, 255),
-                                textBtn: 'SIGN IN',
+                                textBtn: 'SIGN UP',
                                 textColor: Color.fromARGB(200, 119, 209, 237),
                                 isTransparent: false,
                                 haveIcon: false,

@@ -7,15 +7,15 @@ InputDecoration InputDecorationWidget(context, labelText) {
       fillColor: Colors.white,
       labelText: labelText,
       labelStyle: TextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.w600, color: kColorsBlack),
-      contentPadding: new EdgeInsets.symmetric(vertical: 50, horizontal: 90),
+          fontSize: 16.0, fontWeight: FontWeight.w600, color: kColorsGrey),
+      contentPadding: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       enabledBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(10),
-        borderSide: BorderSide(color: kColorsWhite, width: 1),
+        borderSide: BorderSide(color: kColorsGrey, width: 1),
       ),
       focusedBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(10),
-        borderSide: BorderSide(color: kColorsWhite, width: 2),
+        borderSide: BorderSide(color: kColorsPurple, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: new BorderRadius.circular(10),
