@@ -123,8 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, '/register');
                             },
                             child: MainBtnWidget(
-                                colorBtn: Color(0xFF70CEEC),
+                                colorBtn: Color.fromARGB(255, 255, 255, 255),
                                 textBtn: 'SIGN IN',
+                                textColor: Color.fromARGB(200, 119, 209, 237),
                                 isTransparent: false,
                                 haveIcon: false,
                                 height: 50,))),

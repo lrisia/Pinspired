@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class MainBtnWidget extends StatelessWidget {
   Color colorBtn;
+  Color textColor;
   String textBtn;
   bool isTransparent;
   bool haveIcon;
   double height;
-  MainBtnWidget({Key? key, required this.colorBtn, required this.textBtn, required this.isTransparent, required this.haveIcon,  this.height=43}) : super(key: key);
+  MainBtnWidget({Key? key, required this.colorBtn, required this.textBtn, required this.isTransparent, required this.haveIcon,  this.height=43, this.textColor=kColorsWhite}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class MainBtnWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              textBtn, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: kColorsWhite),
+              textBtn, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: textColor),
             ),
           ),
         )
