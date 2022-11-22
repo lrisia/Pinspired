@@ -23,6 +23,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => LoginScreen(),
   "/register": (BuildContext context) => RegisterScreen(),
   "/registerGoogle": (BuildContext context) => RegisterGoogleScreen(),
-  "/homepage": (BuildContext context) => gridView()
-  "/upload": (BuildContext context) => UploadScreen(),
+  "/homepage": (BuildContext context) => gridView(),
+  "/upload": (BuildContext context) => UploadScreen()
 };

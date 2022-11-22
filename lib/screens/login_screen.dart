@@ -75,10 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             loginHandle(context: context);
                           },
                           child: MainBtnWidget(
-                              colorBtn: Colors.blue,
-                              textBtn: 'Login',
+                              colorBtn: Color(0xFF70CEEC),
+                              textBtn: 'LOGIN',
                               isTransparent: false,
-                              haveIcon: false))),
+                              haveIcon: false,
+                              height: 50,))),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
@@ -122,10 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, '/register');
                             },
                             child: MainBtnWidget(
-                                colorBtn: Colors.blue,
-                                textBtn: 'Register',
+                                colorBtn: Color(0xFF70CEEC),
+                                textBtn: 'SIGN IN',
                                 isTransparent: false,
-                                haveIcon: false))),
+                                haveIcon: false,
+                                height: 50,))),
                   )
                 ],
               ),
