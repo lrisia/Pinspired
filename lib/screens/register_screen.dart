@@ -23,98 +23,116 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   bool formVaidate = false;
+  var size = [0, 0, 0, 0];
+  var _scollSize = 0.0;
   String? username, email, phone, password, confirmPassword, address;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF68CBEB),
+   
+      //Color(0xFF68CBEB),
       // appBar: AppBar(
       //   backgroundColor: Color.fromARGB(255, 4, 5, 5),
       //   elevation: 0,
       // ),
-      body: Stack(
-        //Image.asset("assets/img.png", width: 170, height: 300),
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/register_photo.png"),
-                  alignment: Alignment(0, -0.9)),
-            ),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.58,
-                minChildSize: 0.58,
-                maxChildSize: formVaidate == false ? 0.58 : 0.7,
-                builder: (_, scrollController) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.65,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
-                    ),
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30, top: 0, bottom: 20),
-                            child: Text('Sign up new account',
-                                style: Theme.of(context).textTheme.headline5),
-                          ),
-                          Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                CreateEmail(),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CreateUsername(),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CreatePassword(),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CreateConfirmPassword(),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.2, 0.1),
+            colors: [
+              Color(0xFF68CBEB),
+              Color.fromARGB(255, 255, 255, 255),
+            ],
+          ),
+        ),
+        
+        child: Stack(
+          //Image.asset("assets/img.png", width: 170, height: 300),
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/register_photo.png"),
+                    alignment: Alignment(0, -0.81)),
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: DraggableScrollableSheet(
+                  initialChildSize: 0.6,
+                  minChildSize: 0.6,
+                  maxChildSize: formVaidate == false ? 0.6 : 0.6 + _scollSize,
+                  builder: (_, scrollController) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: scrollController,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 0, top: 20, bottom: 20),
+                              child: Text('Sign up new account',
+                                  style: Theme.of(context).textTheme.headline5),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 20),
-                            child: InkWell(
-                              onTap: () {
-                                registerHandle(context: context);
-                              },
-                              child: MainBtnWidget(
-                                colorBtn: kColorsSky,
-                                textBtn: 'Sign Up',
-                                isTransparent: false,
-                                haveIcon: false,
+                            Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  CreateEmail(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreateUsername(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreatePassword(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CreateConfirmPassword(),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, bottom: 20),
+                              child: InkWell(
+                                onTap: () {
+                                  registerHandle(context: context);
+                                },
+                                child: MainBtnWidget(
+                                  colorBtn: kColorsSky,
+                                  textBtn: 'Sign Up',
+                                  isTransparent: false,
+                                  haveIcon: false,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    );
+      );
+    
   }
 
   Widget CreateUsername() {
@@ -133,8 +151,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() {
                 formVaidate = true;
               });
+              size[0] = 1;
               return "Please enter username";
             }
+            size[0] = 0;
             return null;
           },
           onChanged: (value) {
@@ -159,8 +179,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() {
                 formVaidate = true;
               });
+              size[1] = 1;
               return "Please enter Email";
             }
+            size[1] = 0;
             return null;
           },
           onChanged: (value) {
@@ -186,8 +208,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() {
                 formVaidate = true;
               });
+              size[2] = 1;
               return "Please enter password";
             }
+            size[2] = 0;
             return null;
           },
           onChanged: (value) {
@@ -211,11 +235,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           validator: (value) {
             if (value!.isEmpty) {
               formVaidate = true;
-
+              size[3] = 1;
               return "Please enter confirm password";
             } else if (password != null && value != password) {
+              size[3] = 1;
               return "Those passwords didn't match. Try again.";
             }
+            size[3] = 0;
             return null;
           },
           onChanged: (value) {
@@ -229,7 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-
+      
       showDialog(
           context: context,
           builder: ((context) => Center(
@@ -250,6 +276,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         showSnackBar(e.message);
         Navigator.of(context).pop();
       }
+    } else {
+      // TODO: check error amount for increase size of form
+      var sum = 0;
+      size.forEach((e) => sum += e);
+      _scollSize = sum * 0.026;
     }
   }
 }
