@@ -1,4 +1,5 @@
 import 'package:cnc_shop/screens/add_product_screen.dart';
+import 'package:cnc_shop/screens/coin_screen.dart';
 import 'package:cnc_shop/screens/home_screen.dart';
 import 'package:cnc_shop/screens/homepage_screen.dart';
 import 'package:cnc_shop/screens/login_screen.dart';
@@ -24,5 +25,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/register": (BuildContext context) => RegisterScreen(),
   "/registerGoogle": (BuildContext context) => RegisterGoogleScreen(),
   "/homepage": (BuildContext context) => HomePageScreen(),
-  "/upload": (BuildContext context) => UploadScreen()
+  "/upload": (BuildContext context) => UploadScreen(),
+  "/coin": (BuildContext context) => CoinScreen(),
 };

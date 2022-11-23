@@ -11,12 +11,14 @@ class CoinBtnWidget extends StatelessWidget {
       height: 57,
       width: 81,
       decoration: BoxDecoration(
-        color: kColorsRed,
+        color: kColorsSky,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
         child: Text(
-          textBtn, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: kColorsWhite),
+          textBtn,
+          style: TextStyle(
+              fontSize: 16.0, fontWeight: FontWeight.w600, color: kColorsWhite),
         ),
       ),
     );

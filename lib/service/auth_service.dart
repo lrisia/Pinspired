@@ -1,4 +1,3 @@
-
 import 'package:cnc_shop/model/user_model.dart';
 import 'package:cnc_shop/service/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -26,9 +25,7 @@ class AuthService {
     return user;
   }
 
-Future<User?> signInWithEmail(
-      {required email}) async {
-  
+  Future<User?> signInWithEmail({required email}) async {
     final userUid = email;
     final user = await _databaseService.getUserFromUid(uid: userUid);
     return user;
@@ -43,7 +40,8 @@ Future<User?> signInWithEmail(
       {required email,
       required username,
       required password,
-      coin, coverImageUrl}) async {
+      coin,
+      coverImageUrl}) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
@@ -71,11 +69,7 @@ Future<User?> signInWithEmail(
       phone,
       address,
       coin}) async {
-    final newUser = User(
-        uid: uid,
-        email: email,
-        username: username,
-        coin: 0);
+    final newUser = User(uid: uid, email: email, username: username, coin: 0);
 
     //TODO add new user to firestore, database
     await _databaseService.createUserFromModel(user: newUser);
