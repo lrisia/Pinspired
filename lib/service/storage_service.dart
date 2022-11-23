@@ -7,7 +7,6 @@ class StorageService {
 
   Future<String?> uploadProductImage({required File imageFile}) async {
     String unixTime = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
-    //    Home/~~/~~/image.png
     final fileName = imageFile.path.split('/').last;
     final fileNameArray = fileName.split('.');
     final fileNameAndTime =
@@ -25,6 +24,15 @@ class StorageService {
       print(e);
     }
   }
+
+
+
+
+
+
+
+
+
 
   Future<String?> getImage({required String path}) async {
     try {

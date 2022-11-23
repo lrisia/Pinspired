@@ -14,23 +14,7 @@ class gridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const List<TabItem> items = [
-      TabItem(
-        icon: Icons.home,
-      ),
-      TabItem(
-        icon: Icons.attach_money,
-      ),
-      TabItem(
-        icon: Icons.add,
-      ),
-      TabItem(
-        icon: Icons.message,
-      ),
-      TabItem(
-        icon: Icons.account_box,
-      ),
-    ];
+
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -60,7 +44,6 @@ class gridView extends StatelessWidget {
         ),
         body: masonryLayout(context),
         bottomNavigationBar: Creative(
-          items: items,
           isFloating: true,
           highlightStyle: HighlightStyle(
             sizeLarge: true,
