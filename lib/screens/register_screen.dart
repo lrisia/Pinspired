@@ -275,8 +275,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: email,
             username: username,
             password: password,);
+        log("Sign up success");
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/homepage', (route) => false);
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         showSnackBar(e.message);

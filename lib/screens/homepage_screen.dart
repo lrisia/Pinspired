@@ -1,74 +1,51 @@
 import 'dart:ui';
 
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import '../widgets/bottom_bar_creative.dart';
+import '../widgets/nav_bar_widget.dart';
 import '../widgets/input_decoration.dart';
 
-class gridView extends StatelessWidget {
-  const gridView({super.key});
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({super.key});
+
+  @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+  TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    const List<TabItem> items = [
-      TabItem(
-        icon: Icons.home,
-      ),
-      TabItem(
-        icon: Icons.attach_money,
-      ),
-      TabItem(
-        icon: Icons.add,
-      ),
-      TabItem(
-        icon: Icons.message,
-      ),
-      TabItem(
-        icon: Icons.account_box,
-      ),
-    ];
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    decoration: InputDecoration(hintText: 'Search'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                    cursorColor: Colors.white,
-                  ),
-                ),
-                Icon(Icons.search)
-              ],
-            ),
-          ),
-        ),
-        body: masonryLayout(context),
-        bottomNavigationBar: Creative(
-          items: items,
-          isFloating: true,
-          highlightStyle: HighlightStyle(
-            sizeLarge: true,
-            background: Color.fromARGB(255, 6, 134, 238),
-            elevation: 3,
-          ),
-        ),
-      ),
+    return Scaffold(
+          extendBodyBehindAppBar: true,
+          // appBar: AppBar(
+          //   // make appbar same in figma, add blur, linear gradient, normal search field
+          //     backgroundColor: Colors.transparent,
+          //     elevation: 0,
+              // leading: Container(
+              //   width: double.infinity,
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: Column(children: [
+              //     AnimSearchBar(
+              //       width: 400,
+              //       textController: textController,
+              //       onSuffixTap: () {
+              //         setState(() {
+              //           textController.clear();
+              //         });
+              //       },
+              //       helpText: "Search something...",
+              //       animationDurationInMilli: 500,
+              //     ),
+              //   ]),
+              // )
+              // ),
+          body: masonryLayout(context), // add this with stack for make search icon flow above grid and padding grid to make spacing between edge
     );
   }
 
@@ -88,7 +65,7 @@ class gridView extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image.network(
-                "https://source.unsplash.com/random/?Cryptocurrency&$index"),
+                "https://source.unsplash.com/random/$index"),
           ),
         );
       },

@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.9"
+  anim_search_bar:
+    dependency: "direct main"
+    description:
+      name: anim_search_bar
+      sha256: "51ed73a68e4976d53f96387657ede0fbec1e70a041d530641cbf70cf8d5873b4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   archive:
     dependency: transitive
     description:

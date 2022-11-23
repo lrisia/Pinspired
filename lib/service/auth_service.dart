@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cnc_shop/model/user_model.dart';
 import 'package:cnc_shop/service/database_service.dart';

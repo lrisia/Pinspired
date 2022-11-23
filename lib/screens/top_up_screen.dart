@@ -37,7 +37,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
         title: Text('Top Up', style: Theme.of(context).textTheme.headline3),
         backgroundColor: kColorsPurple,
         elevation: 0,
-        toolbarHeight: 60,
+    
         leading: IconButton(
           icon: SvgPicture.asset('assets/icons/back.svg', color: kColorsWhite),
           onPressed: () {
