@@ -57,10 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
+        
           body: Center(
             child: _screen.elementAt(_currentIndex),
           ),
@@ -69,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: BottomBarInspiredInside(
               height: 30,
               items: items,
-              backgroundColor: Color(0xFFE1F8FF),
+              backgroundColor: Color.fromARGB(255, 182, 226, 240),
               color: kColorsBlack,
               colorSelected: Colors.white,
               indexSelected: _currentIndex,

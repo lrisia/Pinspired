@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:cnc_shop/themes/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -18,54 +20,64 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   TextEditingController textController = TextEditingController();
+  String _searchKeyword = '';
+  final String _apiUrl = "https://source.unsplash.com/random/";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          extendBodyBehindAppBar: true,
-          // appBar: AppBar(
-          //   // make appbar same in figma, add blur, linear gradient, normal search field
-          //     backgroundColor: Colors.transparent,
-          //     elevation: 0,
-              // leading: Container(
-              //   width: double.infinity,
-              //   padding: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: Column(children: [
-              //     AnimSearchBar(
-              //       width: 400,
-              //       textController: textController,
-              //       onSuffixTap: () {
-              //         setState(() {
-              //           textController.clear();
-              //         });
-              //       },
-              //       helpText: "Search something...",
-              //       animationDurationInMilli: 500,
-              //     ),
-              //   ]),
-              // )
-              // ),
-          body: masonryLayout(context), // add this with stack for make search icon flow above grid and padding grid to make spacing between edge
-    );
+        body: Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+          child: masonryLayout(context),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
+          child: AnimSearchBar(
+            width: 350,
+            textController: textController,
+            onSuffixTap: () {
+              setState(() {
+                _searchKeyword = (textController.value.text.isEmpty) ? '' : textController.value.text;
+                textController.clear();
+              });
+            },
+            color: kColorsSky,
+            helpText: "search something...",
+            closeSearchOnSuffixTap: true,
+            animationDurationInMilli: 500,
+          ),
+        )
+      ],
+    ));
   }
 
   Widget masonryLayout(BuildContext context) {
+    // int _itemCount = 40;
+    // List<Image> _images =  [];
+
     return MasonryGridView.builder(
       scrollDirection: Axis.vertical,
-      crossAxisSpacing: 3,
-      mainAxisSpacing: 3,
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 5,
       gridDelegate:
           SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemCount: 30,
+      itemCount: 40,
       itemBuilder: (context, index) {
+        // _images.add(Image.network("https://source.unsplash.com/random/$index"));
+        print("run in masony layout");
         return InkWell(
           onTap: (() {
-            print(1);
+            // print(_images[index]);
           }),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-                "https://source.unsplash.com/random/$index"),
+            // child: _images[index],
+            child: _searchKeyword == ''
+                ? Image.network("https://source.unsplash.com/random/$index")
+                : Image.network(
+                    "https://source.unsplash.com/random/?$_searchKeyword&$index"),
           ),
         );
       },
