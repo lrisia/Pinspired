@@ -60,36 +60,54 @@ class _CoinScreenState extends State<CoinScreen> {
               SizedBox(
                 height: 10,
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30)),
-                      ),
-                      child: Container(),
+              Container(
+                decoration: BoxDecoration(),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30)),
                     ),
+                    child: Container(),
                   ),
                 ),
               ),
               topUp(),
-              Padding(
-                padding: const EdgeInsets.only(top: 350, bottom: 10),
-                child: InkWell(
-                  onTap: () {},
-                  child: MainBtnWidget(
-                    colorBtn: Color(0xFF72EC70),
-                    textBtn: 'TopUp',
-                    isTransparent: false,
-                    haveIcon: false,
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 350, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: MainBtnWidget(
+                          colorBtn: Color(0xFF72EC70),
+                          textBtn: 'TopUp',
+                          isTransparent: false,
+                          haveIcon: false,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 350, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: MainBtnWidget(
+                          colorBtn: Color(0xFFEC7070),
+                          textBtn: 'Withdraw',
+                          isTransparent: false,
+                          haveIcon: false,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
