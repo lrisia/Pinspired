@@ -141,17 +141,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 ),
                               )
 
-                              // Container(
-                              //  decoration: BoxDecoration(
-                              //
-                              //
-                              //      image: snapshot.data?[index]?.photoURL != ""
-                              //          ? DecorationImage(
-                              //              image: NetworkImage(
-                              //              snapshot.data?[index]?.photoURL ?? ''),
-                              //         fit: BoxFit.cover)
-                              //          : null),
-                              //),
+
                               ));
                     },
                   );

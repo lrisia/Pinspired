@@ -241,14 +241,7 @@ class _UploadScreenState extends State<UploadScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: Creative(
-          isFloating: true,
-          highlightStyle: HighlightStyle(
-            sizeLarge: true,
-            background: Color.fromARGB(255, 6, 134, 238),
-            elevation: 3,
-          ),
-        ));
+    );
   }
 
   Widget CreateDescription() {

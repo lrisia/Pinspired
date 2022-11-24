@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cnc_shop/model/product_model.dart';
+import 'package:cnc_shop/model/request_model.dart';
 import 'package:cnc_shop/model/transactionn_model.dart';
 import 'package:cnc_shop/model/user_model.dart';
 
@@ -74,6 +75,15 @@ class DatabaseService {
       .map((snapshot) => snapshot.docs.map((doc) {
             // print(doc.data());
             return Product.fromMap(productMap: doc.data());
+          }).toList());
+
+
+  Stream<List<Request>> getStreamListRequest() => _firebaseStore
+      .collection('requests')
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) {
+            // print(doc.data());
+            return Request.fromMap(requestMap: doc.data());
           }).toList());
 
   Future<void>addPost({required post})async {

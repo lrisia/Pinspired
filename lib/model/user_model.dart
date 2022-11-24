@@ -1,16 +1,21 @@
+import 'package:cnc_shop/model/request_model.dart';
+
 class User {
   final String uid;
   final String email;
   final String username;
   double? coin;
   String? coverImageUrl;
+  
 
   User(
-      {required this.uid,
+      {
+        required this.uid,
       required this.email,
       required this.username,
       this.coin,
-      this.coverImageUrl});
+      this.coverImageUrl
+      });
 
   User.fromMap({required Map<String, dynamic> userMap})
       : uid = userMap['uid'],

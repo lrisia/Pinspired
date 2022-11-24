@@ -7,6 +7,7 @@ import 'package:cnc_shop/screens/product_info_screen.dart';
 import 'package:cnc_shop/screens/profile_screen.dart';
 import 'package:cnc_shop/screens/registerGoogle_screen.dart';
 import 'package:cnc_shop/screens/register_screen.dart';
+import 'package:cnc_shop/screens/request_screen.dart';
 import 'package:cnc_shop/screens/top_up_screen.dart';
 import 'package:cnc_shop/screens/upload_screen.dart';
 import 'package:cnc_shop/screens/withdraw_screen.dart';
@@ -25,4 +26,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/homepage": (BuildContext context) => HomePageScreen(),
   "/upload": (BuildContext context) => UploadScreen(),
   "/coin": (BuildContext context) => CoinScreen(),
+  "/request": (BuildContext context) => RequestScreen(),
 };

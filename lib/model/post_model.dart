@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cnc_shop/model/product_model.dart';
 
-enum PostTag {Illustator, Drawing, Fashion, Photo, unknown}
+enum PostTag {Illustration, Drawing, Fashion, Photo, unknown}
 
 class Post{
   final String postId;
@@ -13,8 +13,10 @@ class Post{
 
   static PostTag getPostTag(String tag) {
     switch (tag) {
-      case 'Illustator':
-        return PostTag.Illustator;
+      case 'Illustration':
+        return PostTag.Illustration;
+        case 'Illustator':
+        return PostTag.Illustration;
       case 'Drawing':
         return PostTag.Drawing;
       case 'Fashion':
