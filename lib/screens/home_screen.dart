@@ -4,11 +4,13 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:cnc_shop/model/product_model.dart';
 import 'package:cnc_shop/screens/coin_screen.dart';
+import 'package:cnc_shop/model/request_model.dart';
 import 'package:cnc_shop/screens/homepage_screen.dart';
 import 'package:cnc_shop/screens/myself_profile_screen.dart';
 import 'package:cnc_shop/screens/product_info_screen.dart';
 import 'package:cnc_shop/screens/profile_screen.dart';
 import 'package:cnc_shop/screens/register_screen.dart';
+import 'package:cnc_shop/screens/request_screen.dart';
 import 'package:cnc_shop/screens/top_up_screen.dart';
 import 'package:cnc_shop/screens/upload_screen.dart';
 import 'package:cnc_shop/service/database_service.dart';
@@ -30,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     UploadScreen(),
     CoinScreen(),
     HomePageScreen(),
-    RegisterScreen(),
+    RequestScreen(),
     MyselfProfileScreen()
   ];
 
@@ -84,4 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ));
   }
+
+
+  
 }
