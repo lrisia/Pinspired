@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cnc_shop/model/product_model.dart';
 
 enum PostTag {Illustator, Drawing, Fashion, Photo, unknown}

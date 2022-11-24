@@ -193,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Expanded(
                           child: InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, '/transaction');
+                                Navigator.pushNamed(context, '/debug');
                               },
                               child: CoinMenuWidget(
                                   iconBtn: 'assets/icons/transaction.svg',

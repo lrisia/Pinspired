@@ -20,7 +20,7 @@ class CoinScreen extends StatefulWidget {
 }
 
 class _CoinScreenState extends State<CoinScreen> {
-  int topup = 0;
+  int topup = 100;
   List<int> amountList = [100, 300, 500, 700, 1000, 2000];
   User? user;
   @override
@@ -34,163 +34,344 @@ class _CoinScreenState extends State<CoinScreen> {
       });
     });
     return Scaffold(
-      backgroundColor: kColorsSky,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kColorsBlack,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Container(
-        //Image.asset("assets/img.png", width: 170, height: 300),padding: const EdgeInsets.only(top: 25),
-
-        child: InkWell(
-          onTap: () {
-            // FocusScope.of(context).unfocus();
-          },
-          child: Stack(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
-                    ),
-                    child: Container(),
+        backgroundColor: kColorsSky,
+        body: user == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment(0.2, 0.1),
+                    colors: [
+                      Color(0xFF68CBEB),
+                      Color.fromARGB(255, 255, 255, 255),
+                    ],
                   ),
                 ),
-              ),
-              topUp(),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 350, bottom: 10),
-                      child: InkWell(
-                        onTap: () {},
-                        child: MainBtnWidget(
-                          colorBtn: Color(0xFF72EC70),
-                          textBtn: 'TopUp',
-                          isTransparent: false,
-                          haveIcon: false,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 350, bottom: 10),
-                      child: InkWell(
-                        onTap: () {},
-                        child: MainBtnWidget(
-                          colorBtn: Color(0xFFEC7070),
-                          textBtn: 'Withdraw',
-                          isTransparent: false,
-                          haveIcon: false,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                //Image.asset("assets/img.png", width: 170, height: 300),padding: const EdgeInsets.only(top: 25),
 
-  Widget topUp() {
-    return Stack(
-      children: [
-        Container(
-          height: 450,
-          width: MediaQuery.of(context).size.width,
-        ),
-        Positioned(
-          top: 150,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                child: Container(
-                  height: 240,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: kColorsWhite,
-                      boxShadow: [
-                        BoxShadow(
-                          color: kColorsBlack.withOpacity(0.25),
-                          spreadRadius: 0,
-                          blurRadius: 4,
-                          offset: Offset(0, 4),
+                child: InkWell(
+                  onTap: () {
+                    // FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, bottom: 10),
+                          child: Text(
+                            'COIN',
+                            style: TextStyle(
+                              color: kColorsSky,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.55,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(30)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      topUp(),
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 15, left: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text("Amount:",
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Spacer(),
+                                            Text("${topup}",
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Image.asset(
+                                              "assets/icons/coin.png",
+                                              scale: 10,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      title: Text('Top up'),
+                                                      content: Text(
+                                                          'Top up ${topup} coin.'),
+                                                      actionsAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  'Cancel');
+                                                            },
+                                                            child:
+                                                                Text('Cancel')),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              user!.coin =
+                                                                  user!.coin! +
+                                                                      topup;
+
+                                                              final databaseService =
+                                                                  Provider.of<
+                                                                          DatabaseService>(
+                                                                      context,
+                                                                      listen:
+                                                                          false);
+
+                                                              databaseService
+                                                                  .updateUserFromUid(
+                                                                      uid: user!
+                                                                          .uid,
+                                                                      user:
+                                                                          user!)
+                                                                  .then(
+                                                                      (value) {
+                                                                // success state
+                                                                // showSnackBar(
+                                                                //     'success',
+                                                                //     backgroundColor:
+                                                                //         Colors
+                                                                //             .green);
+                                                                            topup = 100;
+                                                              }).catchError(
+                                                                      (e) {
+                                                                //handle error
+                                                                // showSnackBar(
+                                                                //     e
+                                                                //         .toString(),
+                                                                //     backgroundColor:
+                                                                //         Colors
+                                                                //             .red);
+                                                              });
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  'Ok');
+                                                            },
+                                                            child: Text('Ok')),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                child: MainBtnWidget(
+                                                  colorBtn: Color(0xFF72EC70),
+                                                  textBtn: 'TopUp',
+                                                  isTransparent: false,
+                                                  haveIcon: false,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  if (user!.coin! >= topup) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          AlertDialog(
+                                                        title: Text('Withdraw'),
+                                                        content: Text(
+                                                            'Withdraw ${topup} coin.'),
+                                                        actionsAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    'Cancel');
+                                                              },
+                                                              child: Text(
+                                                                  'Cancel')),
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                user!.coin =
+                                                                    user!.coin! -
+                                                                        topup;
+
+                                                                final databaseService =
+                                                                    Provider.of<
+                                                                            DatabaseService>(
+                                                                        context,
+                                                                        listen:
+                                                                            false);
+
+                                                                databaseService
+                                                                    .updateUserFromUid(
+                                                                        uid: user!
+                                                                            .uid,
+                                                                        user:
+                                                                            user!)
+                                                                    .then(
+                                                                        (value) {
+                                                                  // success state
+                                                                  showSnackBar(
+                                                                      'success',
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .green);
+                                                                              topup = 100;
+                                                                }).catchError(
+                                                                        (e) {
+                                                                  //handle error
+                                                                  showSnackBar(
+                                                                      e,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .red);
+                                                                });
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    'Ok');
+                                                              },
+                                                              child:
+                                                                  Text('Ok')),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => AlertDialog(
+                                                          title:
+                                                              Text('Withdraw'),
+                                                          content: Text(
+                                                              "You don't have enough money to withdraw."),
+                                                          actionsAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context,
+                                                                      'Ok');
+                                                                },
+                                                                child:
+                                                                    Text('Ok')),
+                                                          ]),
+                                                    );
+                                                  }
+                                                },
+                                                child: MainBtnWidget(
+                                                  colorBtn: Color(0xFFEC7070),
+                                                  textBtn: 'Withdraw',
+                                                  isTransparent: false,
+                                                  haveIcon: false,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ]),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Remaining coin 1100',
-                        style: Theme.of(context).textTheme.headline4),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Container(
-                        height: 1.5,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(color: kColorsCream),
-                      ),
-                    ),
-                    Container(
-                      height: 130,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Wrap(
-                            runSpacing: 10.0,
-                            spacing: 30.0,
-                            children: [
-                              ...List.generate(
-                                amountList.length,
-                                (index) => InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        topup = amountList[index];
-                                      });
-                                    },
-                                    child: CoinBtnWidget(
-                                        textBtn: '${amountList[index]}')),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
+              ));
+  }
+
+  Widget topUp() {
+    return Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+          alignment: Alignment.centerLeft,
+          child: Text('Remaining coin: ${user!.coin!.round()}',
+              style: Theme.of(context).textTheme.headline5),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 1.5,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(color: kColorsCream),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            //todo make box shadow
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Wrap(
+              runSpacing: 10.0,
+              spacing: 30.0,
+              children: [
+                ...List.generate(
+                  amountList.length,
+                  (index) => InkWell(
+                      onTap: () {
+                        setState(() {
+                          topup = amountList[index];
+                        });
+                      },
+                      child: CoinBtnWidget(textBtn: '${amountList[index]}')),
+                )
+              ],
+            ),
           ),
         )
       ],
