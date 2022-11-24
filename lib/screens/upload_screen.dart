@@ -2,13 +2,19 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:cnc_shop/screens/home_screen.dart';
+import 'package:cnc_shop/screens/homepage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
+import '../model/post_model.dart';
+import '../model/user_model.dart';
+import '../service/auth_service.dart';
 import '../service/database_service.dart';
 import '../service/storage_service.dart';
 import '../themes/color.dart';
@@ -16,7 +22,13 @@ import '../utils/showSnackBar.dart';
 import '../widgets/bottom_bar_creative.dart';
 import '../widgets/input_decoration.dart';
 import '../widgets/main_btn_widget.dart';
-  List<String> dropdownList =  <String>["Illustator", "Drawing", "Fashion", "Photo"];
+
+List<String> dropdownList = <String>[
+  "Illustator",
+  "Drawing",
+  "Fashion",
+  "Photo"
+];
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({Key? key}) : super(key: key);
@@ -26,17 +38,24 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-
+  User? user;
 
   final formKey = GlobalKey<FormState>();
   String? description;
   File? imageFile;
   final picker = ImagePicker();
-  String dropdownvalue = dropdownList.first; 
+  String dropdownvalue = dropdownList.first;
 
   @override
   Widget build(BuildContext context) {
- 
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    authService.currentUser().then((currentUser) {
+      setState(() {
+        user = currentUser;
+      });
+    });
+
     return Scaffold(
         backgroundColor: Color(0xFF68CBEB),
         body: Container(
@@ -59,8 +78,8 @@ class _UploadScreenState extends State<UploadScreen> {
                   height: 10,
                 ),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(),
+                  child: Form(
+                    key: formKey,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -154,37 +173,45 @@ class _UploadScreenState extends State<UploadScreen> {
                                 child: Column(
                                   children: [
                                     CreateDescription(),
-
                                     Expanded(
                                       child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(40,0,60,0),
-                                          child: Text("Tag:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-                                        ),
-                                    DropdownButton<String>(
-                                      dropdownColor: Colors.black,
-                                              style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                                              value: dropdownvalue,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  dropdownvalue =  value!;
-                                                });
-                                                print(dropdownvalue);
-                                              },
-                                              items: dropdownList
-                                                  .map<DropdownMenuItem<String>>((e) {
-                                                return DropdownMenuItem(
-                                                    value: e, child: Text(e));
-                                              }).toList(),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                40, 0, 60, 0),
+                                            child: Text(
+                                              "Tag:",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             ),
-                                          
+                                          ),
+                                          DropdownButton<String>(
+                                            dropdownColor: Colors.black,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                            value: dropdownvalue,
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                dropdownvalue = value!;
+                                              });
+                                              print(dropdownvalue);
+                                            },
+                                            items: dropdownList
+                                                .map<DropdownMenuItem<String>>(
+                                                    (e) {
+                                              return DropdownMenuItem(
+                                                  value: e, child: Text(e));
+                                            }).toList(),
+                                          ),
                                         ],
                                       ),
                                     )
-
-                        
                                   ],
                                 ),
                               ),
@@ -226,7 +253,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
   Widget CreateDescription() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20,30, 20 ,0),
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
       child: TextFormField(
         maxLines: 4,
         style: TextStyle(fontSize: 20),
@@ -291,7 +318,6 @@ class _UploadScreenState extends State<UploadScreen> {
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
         print(imageFile.toString());
-
       } else {
         print('No Image selected');
       }
@@ -318,24 +344,58 @@ class _UploadScreenState extends State<UploadScreen> {
     final storageService = Provider.of<StorageService>(context, listen: false);
     String? imageUrl;
 
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-          child: CircularProgressIndicator(
-        strokeWidth: 4,
-      )),
-    );
-
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
 
     if (imageFile != null) {
-      imageUrl = await storageService.uploadProductImage(imageFile: imageFile!);
+      imageUrl = await storageService.uploadPostImage(imageFile: imageFile!);
     }
 
-    Navigator.of(context).pop();
-    showSnackBar('Add product successful.', backgroundColor: Colors.green);
-    Navigator.of(context).pop();
-  }
+    print(imageUrl);
+    final newPost = Post(
+        postId: Uuid().v1(),
+        tag: Post.getPostTag(dropdownvalue),
+        userId: user!.uid,
+        description: description,
+        photoURL: imageUrl!);
 
+    databaseService.addPost(post: newPost);
+
+    showDialog<String>(
+      
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          
+          content: Stack(
+   
+
+            alignment: Alignment.center,
+            children: <Widget>[
+      Container(
+        width: double.infinity,
+        height: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        padding: EdgeInsets.fromLTRB(20,150, 20, 5),
+        child: Text("Post success!",
+          style: TextStyle(fontSize: 24),
+          textAlign: TextAlign.center
+        ),
+      ),
+      Positioned(
+        top: 0,
+        child: Image.asset("assets/checkIcon.jpg", width: 150, height: 150)
+      )
+    ],),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomeScreen())),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+  }
 }

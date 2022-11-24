@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+import '../model/post_model.dart';
+import '../model/user_model.dart';
+import '../service/database_service.dart';
 import '../widgets/nav_bar_widget.dart';
 import '../widgets/input_decoration.dart';
 
@@ -22,16 +26,136 @@ class _HomePageScreenState extends State<HomePageScreen> {
   TextEditingController textController = TextEditingController();
   String _searchKeyword = '';
   final String _apiUrl = "https://source.unsplash.com/random/";
+  User? user;
+
+  
 
   @override
   Widget build(BuildContext context) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
     return Scaffold(
         body: Stack(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
-          child: masonryLayout(context),
-        ),
+            padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+            child: StreamBuilder<List<Post?>>(
+                stream: databaseService.getStreamListPost(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    log(snapshot.error.toString());
+                    return Center(
+                      child: Text('An error occure.'),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text('No Post'),
+                    );
+                  }
+                  //return masonryLayout(context);})),
+
+                  return MasonryGridView.builder(
+                    scrollDirection: Axis.vertical,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    gridDelegate:
+                        SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: InkWell(
+                                onTap: () async{
+                                 String? username = await getUsername(snapshot, index);
+                                  showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20))),
+                                            content: SingleChildScrollView(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            20, 160, 20, 5),
+                                                    child: Column(
+                                                      children: [
+                                                        
+                                                        Text("Upload by ${username}" ,
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                            textAlign: TextAlign
+                                                                .left),
+                                                        Text("Descripton: ${snapshot.data?[index]?.description}",
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                            textAlign: TextAlign
+                                                                .left),
+                                                        Text("Tag: ${snapshot.data?[index]?.tag.toString().split('.')[1]}",
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                            textAlign: TextAlign
+                                                                .left)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                      top: 0,
+                                                      child: Image(
+                                                          image: NetworkImage(
+                                                              snapshot
+                                                                      .data?[
+                                                                          index]
+                                                                      ?.photoURL ??
+                                                                  ''),
+                                                          height: 150))
+                                                ],
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: Image(
+                                  image: NetworkImage(
+                                      snapshot.data?[index]?.photoURL ?? ''),
+                                ),
+                              )
+
+                              // Container(
+                              //  decoration: BoxDecoration(
+                              //
+                              //
+                              //      image: snapshot.data?[index]?.photoURL != ""
+                              //          ? DecorationImage(
+                              //              image: NetworkImage(
+                              //              snapshot.data?[index]?.photoURL ?? ''),
+                              //         fit: BoxFit.cover)
+                              //          : null),
+                              //),
+                              ));
+                    },
+                  );
+                })),
         Container(
           margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
           child: AnimSearchBar(
@@ -39,7 +163,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
             textController: textController,
             onSuffixTap: () {
               setState(() {
-                _searchKeyword = (textController.value.text.isEmpty) ? '' : textController.value.text;
+                _searchKeyword = (textController.value.text.isEmpty)
+                    ? ''
+                    : textController.value.text;
                 textController.clear();
               });
             },
@@ -54,9 +180,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 
   Widget masonryLayout(BuildContext context) {
-    // int _itemCount = 40;
-    // List<Image> _images =  [];
-
     return MasonryGridView.builder(
       scrollDirection: Axis.vertical,
       crossAxisSpacing: 5,
@@ -83,4 +206,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
       },
     );
   }
+
+  Future<String?> getUsername(dynamic snapshot, dynamic index) async{
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    User? user;
+    String? username;
+  user = await databaseService.getUserFromUid(uid: snapshot.data?[index]?.userId);
+  
+  if(user!.username.isNotEmpty){
+      username= user.username;
+      print(username);
+  }
+  return username;
+  }
+
 }

@@ -6,6 +6,8 @@ import 'package:cnc_shop/model/product_model.dart';
 import 'package:cnc_shop/model/transactionn_model.dart';
 import 'package:cnc_shop/model/user_model.dart';
 
+import '../model/post_model.dart';
+
 class DatabaseService {
   final FirebaseFirestore _firebaseStore = FirebaseFirestore.instance;
 
@@ -58,6 +60,14 @@ class DatabaseService {
 
 
 
+  Stream<List<Post>> getStreamListPost() => _firebaseStore
+      .collection('posts')
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) {
+            return Post.fromMap(postMap: doc.data());
+          }).toList());
+
+
   Stream<List<Product>> getStreamListProduct() => _firebaseStore
       .collection('products')
       .snapshots()
@@ -65,6 +75,15 @@ class DatabaseService {
             // print(doc.data());
             return Product.fromMap(productMap: doc.data());
           }).toList());
+
+  Future<void>addPost({required post})async {
+    final docPost = _firebaseStore.collection('posts').doc();
+
+    final Map<String, dynamic> postInfo = post.toMap();
+
+    await docPost.set(postInfo);
+
+  }
 
   Future<void> addProduct({required product}) async {
     final docProduct = _firebaseStore.collection('products').doc();
@@ -86,11 +105,4 @@ class DatabaseService {
     // await docProduct.update(productInfo);
   }
 
-  Stream<List<Transactionn>> getStreamListTransactions() => _firebaseStore
-      .collection('transactions')
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) {
-            // print(doc.data());
-            return Transactionn.fromMap(transactionMap: doc.data());
-          }).toList());
 }
