@@ -43,8 +43,17 @@ class _RequestScreenState extends State<RequestScreen> {
     });
 
     return Scaffold(
-        backgroundColor: Color(0xFF68CBEB),
         body: Container(
+          decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment(0.1, 0.1),
+                    colors: [
+                      Color(0xFF68CBEB),
+                      Color.fromARGB(255, 255, 255, 255),
+                    ],
+                  ),
+                ),
             child: InkWell(
                 onTap: () {
                   FocusScope.of(context).unfocus();
@@ -53,14 +62,11 @@ class _RequestScreenState extends State<RequestScreen> {
                   Container(
                     padding: const EdgeInsets.only(top: 40, left: 20),
                     alignment: Alignment.bottomLeft,
-                    child: Text('REQUEST',
+                    child: Text('TIP',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(
-                    height: 70,
                   ),
                   Expanded(
                       child: Form(
@@ -77,7 +83,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(10, 30, 10, 20),
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 20),
                                   child: StreamBuilder<List<Request?>>(
                                       stream: databaseService
                                           .getStreamListRequest(),
@@ -108,7 +114,6 @@ class _RequestScreenState extends State<RequestScreen> {
                                                     "${snapshot.data?[index]?.user_hirer}",
                                                     "${snapshot.data?[index]?.user_workForHire}",
                                                     snapshot.data?[index]?.cost,
-                                                    "${snapshot.data?[index]?.state}",
                                                     "${snapshot.data?[index]?.description}",
                                                     ),
                                                   SizedBox(

@@ -288,17 +288,10 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                                                                 fontStyle: FontStyle.italic,
                                                                                 color: Colors.grey),
                                                                           ),
-                                                                          InkWell(
-                                                                            child:
-                                                                                Text(
+                                                                          Text(
                                                                               "$username",
-                                                                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, decoration: TextDecoration.underline, color: Colors.black),
+                                                                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Colors.black),
                                                                             ),
-                                                                            onTap:
-                                                                                () async {
-                                                                              print("Tap on username");
-                                                                            },
-                                                                          ),
                                                                           Spacer(),
                                                                           Text(
                                                                             "${snapshot.data?[index]?.tag.toString().split('.')[1]}",

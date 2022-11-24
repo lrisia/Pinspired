@@ -5,7 +5,6 @@ class Request {
   final String description;
   final String id;
   final int cost;
-  final String state;
   final String user_hirer;
   final String user_workForHire;
 
@@ -15,7 +14,6 @@ class Request {
     required this.cost,
     required this.user_hirer,
     required this.user_workForHire,
-    required this.state
   } 
   );
 
@@ -24,8 +22,7 @@ class Request {
         description = requestMap['description'],
         cost = requestMap['cost'],
         user_hirer = requestMap['user_hirer'],
-        user_workForHire = requestMap['user_workForHire'],
-        state = requestMap['state'];
+        user_workForHire = requestMap['user_workForHire'];
 
 
           Map<String, dynamic> toMap() => {
@@ -34,8 +31,5 @@ class Request {
         'cost': cost,
         'user_hirer': user_hirer ,
         'user_workForHire': user_workForHire ,
-        'state': state
       };
-
-
 }
