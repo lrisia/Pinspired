@@ -25,6 +25,27 @@ class StorageService {
     }
   }
 
+  Future<String?> uploadCoverImage({required File imageFile}) async {
+    String unixTime = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
+    final fileName = imageFile.path.split('/').last;
+    final fileNameArray = fileName.split('.');
+    final fileNameAndTime =
+        '${fileNameArray[0]}${unixTime}${fileNameArray.last}';
+
+    try {
+      final uploadTask = await _firebaseStorage
+          .ref('covers/$fileNameAndTime')
+          .putFile(imageFile);
+
+      final imageUrl = await uploadTask.ref.getDownloadURL();
+
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+    return "https://firebasestorage.googleapis.com/v0/b/cnc-shop-caa9d.appspot.com/o/covers%2Fdefualt_cover.png?alt=media&token=c16965aa-a181-4c12-b528-b23221c23e17";
+  }
+
 
 
 

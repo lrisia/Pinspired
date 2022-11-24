@@ -15,8 +15,6 @@ class DatabaseService {
     await docUser.set(userInfo);
   }
 
-  
-
   Future<User?> getUserFromUid({required uid}) async {
     final docUser = _firebaseStore.collection('users').doc(uid);
     final snapshot = await docUser.get();
@@ -29,6 +27,13 @@ class DatabaseService {
   }
 
   Future<void> updateUserFromUid({required uid, required User user}) async {
+    final docUser = _firebaseStore.collection('users').doc(uid);
+    final newUserInfo = user.toMap();
+
+    docUser.set(newUserInfo);
+  }
+
+  Future<void> updateCoverFromUid({required uid, required User user}) async {
     final docUser = _firebaseStore.collection('users').doc(uid);
     final newUserInfo = user.toMap();
 
@@ -55,8 +60,6 @@ class DatabaseService {
     final user = User.fromMap(userMap: userInfo!);
     return user;
   }
-
-
 
   Stream<List<Product>> getStreamListProduct() => _firebaseStore
       .collection('products')

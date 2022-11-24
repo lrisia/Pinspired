@@ -54,7 +54,7 @@ class AuthService {
         email: email,
         username: username,
         coin: 0,
-        coverImageUrl: "");
+        coverImageUrl: "https://firebasestorage.googleapis.com/v0/b/cnc-shop-caa9d.appspot.com/o/covers%2Fdefualt_cover.png?alt=media&token=c16965aa-a181-4c12-b528-b23221c23e17");
 
     //TODO add new user to firestore, database
     await _databaseService.createUserFromModel(user: newUser);

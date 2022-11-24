@@ -23,6 +23,7 @@ class _CoinScreenState extends State<CoinScreen> {
   int topup = 100;
   List<int> amountList = [100, 300, 500, 700, 1000, 2000];
   User? user;
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -33,6 +34,7 @@ class _CoinScreenState extends State<CoinScreen> {
         user = currentUser;
       });
     });
+    
     return Scaffold(
         backgroundColor: kColorsSky,
         body: user == null

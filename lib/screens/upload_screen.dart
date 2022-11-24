@@ -85,13 +85,13 @@ class _UploadScreenState extends State<UploadScreen> {
                                         child: Image.file(
                                           imageFile!,
                                           width: 185,
-                                          height: 185,
+                                          height: 225,
                                           fit: BoxFit.cover,
                                         ),
                                       )
                                     : Container(
                                         width: 185,
-                                        height: 185,
+                                        height: 225,
                                         decoration: BoxDecoration(
                                           boxShadow: [
                                             BoxShadow(
@@ -202,6 +202,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                 textBtn: 'Upload your inspiration',
                                 isTransparent: false,
                                 haveIcon: false,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ),
@@ -214,14 +215,7 @@ class _UploadScreenState extends State<UploadScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: Creative(
-          isFloating: true,
-          highlightStyle: HighlightStyle(
-            sizeLarge: true,
-            background: Color.fromARGB(255, 6, 134, 238),
-            elevation: 3,
-          ),
-        ));
+      );
   }
 
   Widget CreateDescription() {
