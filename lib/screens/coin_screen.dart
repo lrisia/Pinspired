@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +36,7 @@ class _CoinScreenState extends State<CoinScreen> {
         user = currentUser;
       });
     });
-    
+
     return Scaffold(
         backgroundColor: kColorsSky,
         body: user == null
@@ -172,21 +174,21 @@ class _CoinScreenState extends State<CoinScreen> {
                                                                   .then(
                                                                       (value) {
                                                                 // success state
-                                                                // showSnackBar(
-                                                                //     'success',
-                                                                //     backgroundColor:
-                                                                //         Colors
-                                                                //             .green);
-                                                                            topup = 100;
+                                                                showSnackBar(
+                                                                    'success',
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .green);
+                                                                topup = 100;
                                                               }).catchError(
                                                                       (e) {
                                                                 //handle error
-                                                                // showSnackBar(
-                                                                //     e
-                                                                //         .toString(),
-                                                                //     backgroundColor:
-                                                                //         Colors
-                                                                //             .red);
+                                                                showSnackBar(
+                                                                    e
+                                                                        .toString(),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red);
                                                               });
                                                               Navigator.pop(
                                                                   context,
@@ -263,7 +265,12 @@ class _CoinScreenState extends State<CoinScreen> {
                                                                       backgroundColor:
                                                                           Colors
                                                                               .green);
-                                                                              topup = 100;
+                                                                  topup = 100;
+                                                                  AlertController.show(
+                                                                      "Success",
+                                                                      "Success message here!",
+                                                                      TypeAlert
+                                                                          .success);
                                                                 }).catchError(
                                                                         (e) {
                                                                   //handle error

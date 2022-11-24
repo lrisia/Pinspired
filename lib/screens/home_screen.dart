@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:cnc_shop/model/product_model.dart';
+import 'package:cnc_shop/screens/another_profile_screen.dart';
 import 'package:cnc_shop/screens/coin_screen.dart';
 import 'package:cnc_shop/model/request_model.dart';
 import 'package:cnc_shop/screens/homepage_screen.dart';
@@ -32,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     UploadScreen(),
     CoinScreen(),
     HomePageScreen(),
-    RequestScreen(),
+    // RequestScreen(),
+    AnotherProfileScreen(),
     MyselfProfileScreen()
   ];
 

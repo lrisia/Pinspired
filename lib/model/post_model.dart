@@ -1,6 +1,6 @@
 import 'package:cnc_shop/model/product_model.dart';
 
-enum PostTag {Illustration, Drawing, Fashion, Photo, unknown}
+enum PostTag {Illustration, Drawing, Fashion, Photo, Food, Architecture, Sky, Nature, Animal, Other}
 
 class Post{
   final String postId;
@@ -21,8 +21,18 @@ class Post{
         return PostTag.Fashion;
       case 'Photo':
         return PostTag.Photo;
+      case 'Food':
+        return PostTag.Food;
+      case 'Architecture':
+        return PostTag.Architecture;
+      case 'Sky':
+        return PostTag.Sky;
+      case 'Nature':
+        return PostTag.Nature;
+      case 'Animal':
+        return PostTag.Animal;
       default:
-        return PostTag.unknown;
+        return PostTag.Other;
     }
 
 }

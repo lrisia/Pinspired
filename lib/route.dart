@@ -1,8 +1,10 @@
 import 'package:cnc_shop/screens/add_product_screen.dart';
+import 'package:cnc_shop/screens/another_profile_screen.dart';
 import 'package:cnc_shop/screens/coin_screen.dart';
 import 'package:cnc_shop/screens/home_screen.dart';
 import 'package:cnc_shop/screens/homepage_screen.dart';
 import 'package:cnc_shop/screens/login_screen.dart';
+import 'package:cnc_shop/screens/myself_profile_screen.dart';
 import 'package:cnc_shop/screens/product_info_screen.dart';
 import 'package:cnc_shop/screens/profile_screen.dart';
 import 'package:cnc_shop/screens/registerGoogle_screen.dart';
@@ -27,4 +29,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/upload": (BuildContext context) => UploadScreen(),
   "/coin": (BuildContext context) => CoinScreen(),
   "/request": (BuildContext context) => RequestScreen(),
+  "/self-profile": (BuildContext context) => MyselfProfileScreen(),
+  "/another-profile": (BuildContext context) => AnotherProfileScreen(),
 };

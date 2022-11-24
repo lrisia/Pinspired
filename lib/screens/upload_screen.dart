@@ -63,216 +63,248 @@ class _UploadScreenState extends State<UploadScreen> {
     });
 
     return Scaffold(
-        backgroundColor: Color(0xFF68CBEB),
-        body: Container(
-          child: InkWell(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 40, left: 20),
-                  alignment: Alignment.bottomLeft,
-                  child: Text('UPLOAD',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold)),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: Form(
-                    key: formKey,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30)),
-                        ),
-                        child: ListView(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 80),
-                            child: InkWell(
-                              onTap: () {
-                                showButtomSheet(context);
-                              },
-                              child: Container(
-                                child: imageFile != null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.file(
-                                          imageFile!,
-                                          width: 185,
-                                          height: 225,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    : Container(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment(0.2, 0.1),
+            colors: [
+              Color(0xFF68CBEB),
+              Color.fromARGB(255, 255, 255, 255),
+            ],
+          ),
+        ),
+        child: InkWell(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(top: 40, left: 20),
+                alignment: Alignment.bottomLeft,
+                child: Text('UPLOAD',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold)),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Form(
+                  key: formKey,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      child: ListView(children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 80),
+                          child: InkWell(
+                            onTap: () {
+                              showButtomSheet(context);
+                            },
+                            child: Container(
+                              child: imageFile != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.file(
+                                        imageFile!,
                                         width: 185,
                                         height: 225,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.withOpacity(
-                                                  0.5), //color of shadow
-                                              spreadRadius: 3, //spread radius
-                                              blurRadius: 7, // blur radius
-                                              offset: Offset(0,
-                                                  2), // changes position of shadow
-                                              //first paramerter of offset is left-right
-                                              //second parameter is top to down
-                                            ),
-                                          ],
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topRight,
-                                            end: Alignment.bottomLeft,
-                                            colors: [
-                                              Color.fromARGB(
-                                                  255, 206, 240, 255),
-                                              Colors.white,
-                                            ],
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25)),
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/add-image.png')),
-                                        ),
-                                      ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 322,
-                                height: 250,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey
-                                          .withOpacity(0.5), //color of shadow
-                                      spreadRadius: 2, //spread radius
-                                      blurRadius: 7, // blur radius
-                                      offset: Offset(
-                                          0, 2), // changes position of shadow
-                                      //first paramerter of offset is left-right
-                                      //second parameter is top to down
-                                    ),
-                                  ],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
-                                  color: Color(0xFF70CEEC),
-                                ),
-                                child: Column(
-                                  children: [
-                                    CreateDescription(),
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                40, 0, 60, 0),
-                                            child: Text(
-                                              "Tag:",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          DropdownButton<String>(
-                                            dropdownColor: Colors.black,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                            value: dropdownvalue,
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                dropdownvalue = value!;
-                                              });
-                                              print(dropdownvalue);
-                                            },
-                                            items: dropdownList
-                                                .map<DropdownMenuItem<String>>(
-                                                    (e) {
-                                              return DropdownMenuItem(
-                                                  value: e, child: Text(e));
-                                            }).toList(),
-                                          ),
-                                        ],
+                                        fit: BoxFit.cover,
                                       ),
                                     )
+                                  : Container(
+                                      width: 185,
+                                      height: 225,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(
+                                                0.5), //color of shadow
+                                            spreadRadius: 3, //spread radius
+                                            blurRadius: 7, // blur radius
+                                            offset: Offset(0,
+                                                2), // changes position of shadow
+                                            //first paramerter of offset is left-right
+                                            //second parameter is top to down
+                                          ),
+                                        ],
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.bottomLeft,
+                                          colors: [
+                                            Color.fromARGB(255, 206, 240, 255),
+                                            Colors.white,
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(25)),
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/add-image.png')),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: 322,
+                              height: 250,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment(0.6, 2),
+                                  colors: [
+                                    Color(0xFF68CBEB),
+                                    Color.fromARGB(255, 255, 255, 255),
                                   ],
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey
+                                        .withOpacity(0.5), //color of shadow
+                                    spreadRadius: 2, //spread radius
+                                    blurRadius: 7, // blur radius
+                                    offset: Offset(
+                                        0, 2), // changes position of shadow
+                                    //first paramerter of offset is left-right
+                                    //second parameter is top to down
+                                  ),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              child: Column(
+                                children: [
+                                  CreateDescription(),
+                                  Expanded(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              40, 0, 60, 0),
+                                          child: Text(
+                                            "Tag:",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        DropdownButton<String>(
+                                          dropdownColor: Colors.black,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          value: dropdownvalue,
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              dropdownvalue = value!;
+                                            });
+                                            print(dropdownvalue);
+                                          },
+                                          items: dropdownList
+                                              .map<DropdownMenuItem<String>>(
+                                                  (e) {
+                                            return DropdownMenuItem(
+                                                value: e, child: Text(e));
+                                          }).toList(),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30, bottom: 20),
-                            child: InkWell(
-                              onTap: () {
-                                confirmHandle(context: context);
-                              },
-                              child: MainBtnWidget(
-                                height: 60,
-                                colorBtn: kColorsSky,
-                                textBtn: 'Upload your inspiration',
-                                isTransparent: false,
-                                haveIcon: false,
-                                fontWeight: FontWeight.w800,
-                              ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30, bottom: 20),
+                          child: InkWell(
+                            onTap: () {
+                              confirmHandle(context: context);
+                            },
+                            child: MainBtnWidget(
+                              height: 60,
+                              colorBtn: kColorsSky,
+                              textBtn: 'Upload your inspiration',
+                              isTransparent: false,
+                              haveIcon: false,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                        ]),
-                      ),
+                        ),
+                      ]),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget CreateDescription() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-      child: TextFormField(
-        maxLines: 4,
-        style: TextStyle(fontSize: 20),
-        keyboardType: TextInputType.text,
-        autofocus: false,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please enter description";
-          } else {
-            return null;
-          }
-        },
-        onChanged: (value) {
-          description = value;
-        },
-        decoration: InputDecorationWidget(
-          context,
-          "tell something about your inspiration. . .",
-        ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Description your inspiration",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            maxLines: 4,
+            style: TextStyle(fontSize: 20),
+            keyboardType: TextInputType.text,
+            autofocus: false,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter description";
+              } else {
+                return null;
+              }
+            },
+            onChanged: (value) {
+              description = value;
+            },
+            decoration: InputDecorationWidget(
+              context,
+              "tell something about your inspiration. . .",
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -362,40 +394,35 @@ class _UploadScreenState extends State<UploadScreen> {
     databaseService.addPost(post: newPost);
 
     showDialog<String>(
-      
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          
-          content: Stack(
-   
-
-            alignment: Alignment.center,
-            children: <Widget>[
-      Container(
-        width: double.infinity,
-        height: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        padding: EdgeInsets.fromLTRB(20,150, 20, 5),
-        child: Text("Post success!",
-          style: TextStyle(fontSize: 24),
-          textAlign: TextAlign.center
-        ),
-      ),
-      Positioned(
-        top: 0,
-        child: Image.asset("assets/checkIcon.jpg", width: 150, height: 150)
-      )
-    ],),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HomeScreen())),
-              child: const Text('OK'),
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: EdgeInsets.fromLTRB(20, 150, 20, 5),
+              child: Text("Post success!",
+                  style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
             ),
+            Positioned(
+                top: 0,
+                child: Image.asset("assets/checkIcon.jpg",
+                    width: 150, height: 150))
           ],
         ),
-      );
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HomeScreen())),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }

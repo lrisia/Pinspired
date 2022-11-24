@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -64,13 +65,49 @@ class DatabaseService {
     return user;
   }
 
-  Stream<List<Post>> getStreamListPost() => _firebaseStore
+  Stream<List<Post>> getStreamListPost(
+      {required String userId, required String keyword}) {
+    StreamController<List<Post>> streamController = StreamController();
+    Stream<List<Post>> item;
+    if (keyword != '') {
+      item = _firebaseStore
+          .collection('posts')
+          .where('description', isGreaterThanOrEqualTo: keyword)
+          .where('description', isLessThan: keyword + 'z')
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((doc) {
+                return Post.fromMap(postMap: doc.data());
+              }).toList());
+    streamController.addStream(item);
+
+      // item = _firebaseStore
+      //     .collection('posts')
+      //     .where('tag', isGreaterThanOrEqualTo: keyword)
+      //     .where('tag', isLessThan: keyword + 'z')
+      //     .snapshots()
+      //     .map((snapshot) => snapshot.docs.map((doc) {
+      //           return Post.fromMap(postMap: doc.data());
+      //         }).toList());
+      // streamController.addStream(item);
+      return streamController.stream;
+    }
+
+    return _firebaseStore
       .collection('posts')
+      .where('userId', isNotEqualTo: userId)
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) {
             return Post.fromMap(postMap: doc.data());
           }).toList());
+  }
 
+  Stream<List<Post>> getStreamListPostOnlyMe(String userId) => _firebaseStore
+      .collection('posts')
+      .where('userId', isEqualTo: userId)
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) {
+            return Post.fromMap(postMap: doc.data());
+          }).toList());
 
   Stream<List<Product>> getStreamListProduct() => _firebaseStore
       .collection('products')
@@ -80,7 +117,6 @@ class DatabaseService {
             return Product.fromMap(productMap: doc.data());
           }).toList());
 
-
   Stream<List<Request>> getStreamListRequest() => _firebaseStore
       .collection('requests')
       .snapshots()
@@ -89,13 +125,12 @@ class DatabaseService {
             return Request.fromMap(requestMap: doc.data());
           }).toList());
 
-  Future<void>addPost({required post})async {
+  Future<void> addPost({required post}) async {
     final docPost = _firebaseStore.collection('posts').doc();
 
     final Map<String, dynamic> postInfo = post.toMap();
 
     await docPost.set(postInfo);
-
   }
 
   Future<void> addProduct({required product}) async {
@@ -110,12 +145,13 @@ class DatabaseService {
     // final String productUid = product['uid'];
     // log("product uid: $productUid");
 
-    return _firebaseStore.collection('products').doc(product['uid']).update(product);
+    return _firebaseStore
+        .collection('products')
+        .doc(product['uid'])
+        .update(product);
     // final Map<String, dynamic> converted = getProduct.docs.forEach()
-
 
     // log("product: " + getProduct.toString());
     // await docProduct.update(productInfo);
   }
-
 }

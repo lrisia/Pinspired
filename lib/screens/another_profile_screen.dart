@@ -19,14 +19,14 @@ import 'package:provider/provider.dart';
 import '../model/user_model.dart';
 import '../service/auth_service.dart';
 
-class MyselfProfileScreen extends StatefulWidget {
-  MyselfProfileScreen({Key? key}) : super(key: key);
+class AnotherProfileScreen extends StatefulWidget {
+  AnotherProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyselfProfileScreen> createState() => _MyselfProfileScreen();
+  State<AnotherProfileScreen> createState() => _AnotherProfileScreen();
 }
 
-class _MyselfProfileScreen extends State<MyselfProfileScreen> {
+class _AnotherProfileScreen extends State<AnotherProfileScreen> {
   User? user;
   String? imageUrl;
   File? imageFile;
@@ -245,12 +245,14 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                                                             image:
                                                                                 NetworkImage(snapshot.data?[index]!.photoURL ?? "https://firebasestorage.googleapis.com/v0/b/cnc-shop-caa9d.appspot.com/o/covers%2Fdefualt_cover.png?alt=media&token=c16965aa-a181-4c12-b528-b23221c23e17")),
                                                                         Padding(
+                                                                          // ignore: prefer_const_constructors
                                                                           padding: EdgeInsets.only(
                                                                               right: 10,
                                                                               top: 10),
                                                                           child:
                                                                               InkWell(
                                                                             child:
+                                                                                // ignore: prefer_const_constructors
                                                                                 Icon(
                                                                               Icons.close,
                                                                               color: Colors.white,
@@ -271,7 +273,7 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.start,
                                                                         children: [
-                                                                          Text(
+                                                                          const Text(
                                                                             "Upload by ",
                                                                             style: TextStyle(
                                                                                 fontSize: 20,
@@ -287,10 +289,11 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                                                             ),
                                                                             onTap:
                                                                                 () async {
+                                                                              // ignore: avoid_print
                                                                               print("Tap on username");
                                                                             },
                                                                           ),
-                                                                          Spacer(),
+                                                                          const Spacer(),
                                                                           Text(
                                                                             "${snapshot.data?[index]?.tag.toString().split('.')[1]}",
                                                                             style: TextStyle(
@@ -490,214 +493,5 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
       print(username);
     }
     return username;
-  }
-}
-
-class ImageDialog extends StatefulWidget {
-  ImageDialog({String? image});
-
-  @override
-  State<ImageDialog> createState() => _ImageDialogState();
-}
-
-class _ImageDialogState extends State<ImageDialog> {
-  String? imageUrl;
-
-  File? imageFile;
-
-  final picker = ImagePicker();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        content: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 200,
-              child: imageFile != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.file(
-                        imageFile!,
-                        width: 185,
-                        height: 225,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : Container(
-                      width: 185,
-                      height: 225,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Colors.grey.withOpacity(0.5), //color of shadow
-                            spreadRadius: 3, //spread radius
-                            blurRadius: 7, // blur radius
-                            offset: Offset(0, 2), // changes position of shadow
-                            //first paramerter of offset is left-right
-                            //second parameter is top to down
-                          ),
-                        ],
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color.fromARGB(255, 206, 240, 255),
-                            Colors.white,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        image: DecorationImage(
-                            image: AssetImage('assets/add-image.png')),
-                      ),
-                    ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                child: Icon(Icons.close),
-                onTap: () {
-                  Navigator.pop(context, 'Edit cover');
-                },
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: kColorsSky,
-            ),
-            child: TextButton(
-              child: Text("Edit cover",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  )),
-              onPressed: () {
-                showButtomSheet(context);
-                // log("edit cover");
-                // Navigator.pop(context, 'Edit cover');
-              },
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: kColorsSky,
-            ),
-            child: TextButton(
-              child: Text("Submit",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  )),
-              onPressed: () {
-                submit(context: context);
-                // log("edit cover");
-                // Navigator.pop(context, 'Edit cover');
-              },
-            ),
-          )
-        ]);
-  }
-
-  Future<void> submit({required context}) async {
-    final databaseService =
-        Provider.of<DatabaseService>(context, listen: false);
-    final storageService = Provider.of<StorageService>(context, listen: false);
-    String? imageUrl;
-
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-          child: CircularProgressIndicator(
-        strokeWidth: 4,
-      )),
-    );
-
-    if (imageFile != null) {
-      imageUrl = await storageService.uploadProductImage(imageFile: imageFile!);
-    }
-    // databaseService.addProduct(product: newProduct);
-
-    // Navigator.of(context).pop();
-    // showSnackBar('Add product successful.', backgroundColor: Colors.green);
-    final snackBar = SnackBar(
-      content: const Text('Yay! A SnackBar!'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          // Some code to undo the change.
-        },
-      ),
-    );
-    Navigator.of(context).pop();
-  }
-
-  openGallery(BuildContext context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-      } else {
-        print('No Image selected');
-      }
-    });
-    Navigator.of(context).pop();
-  }
-
-  openCamera(BuildContext context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-      } else {
-        print('No Image selected');
-      }
-    });
-    Navigator.of(context).pop();
-  }
-
-  Future<void> showButtomSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            child: Wrap(
-              children: [
-                ListTile(
-                  onTap: () {
-                    openGallery(context);
-                  },
-                  leading: SvgPicture.asset(
-                    'assets/icons/gallery.svg',
-                    color: kColorsPurple,
-                  ),
-                  title: Text('Gallery',
-                      style: Theme.of(context).textTheme.subtitle1),
-                ),
-                ListTile(
-                  onTap: () {
-                    openCamera(context);
-                  },
-                  leading: SvgPicture.asset(
-                    'assets/icons/camera.svg',
-                    color: kColorsPurple,
-                  ),
-                  title: Text('Camera',
-                      style: Theme.of(context).textTheme.subtitle1),
-                )
-              ],
-            ),
-          );
-        });
   }
 }
