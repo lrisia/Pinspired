@@ -10,6 +10,7 @@ import 'package:cnc_shop/service/database_service.dart';
 import 'package:cnc_shop/service/storage_service.dart';
 import 'package:cnc_shop/themes/color.dart';
 import 'package:cnc_shop/utils/showSnackBar.dart';
+import 'package:cnc_shop/widgets/box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
@@ -95,16 +96,24 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                   right: 0,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      child: Icon(
-                                        size: 35,
-                                        Icons.logout,
-                                        color: Colors.white,
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.withOpacity(0.75),
+                                        borderRadius: BorderRadius.circular(50),
                                       ),
-                                      onTap: () {
-                                        print("Tap logout icon");
-                                        logoutHandle(context: context);
-                                      },
+                                      child: InkWell(
+                                        child: Icon(
+                                          size: 35,
+                                          Icons.logout,
+                                          color: Colors.white,
+                                          
+                                        ),
+                                        onTap: () {
+                                          print("Tap logout icon");
+                                          logoutHandle(context: context);
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -163,18 +172,18 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                               style: TextStyle(
                                   fontSize: 26, fontWeight: FontWeight.w700)),
                           Spacer(),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: kColorsSky,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(32.0),
-                              ),
-                            ),
-                            onPressed: () {
-                              print("Tap on request");
-                            },
-                            child: const Text('request'),
-                          ),
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //     backgroundColor: kColorsSky,
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(32.0),
+                          //     ),
+                          //   ),
+                          //   onPressed: () {
+                          //     print("Tap on request");
+                          //   },
+                            // child: const Text('request'),
+                          // ),
                         ],
                       ),
                     ),

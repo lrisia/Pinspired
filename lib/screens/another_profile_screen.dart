@@ -28,6 +28,7 @@ class AnotherProfileScreen extends StatefulWidget {
 
 class _AnotherProfileScreen extends State<AnotherProfileScreen> {
   User? user;
+  String? anotherUsername;
   String? imageUrl;
   File? imageFile;
   String keyword = '';
@@ -38,6 +39,10 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
     final authService = Provider.of<AuthService>(context, listen: false);
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+    String value = '';
+    int coin = 0;
+    User another = ModalRoute.of(context)!.settings.arguments as User;
+    // print(another.username);
 
     authService.currentUser().then((currentUser) {
       setState(() {
@@ -46,6 +51,21 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
     });
 
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: InkWell(
+            child: Icon(
+              size: 35,
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: user == null
             ? Center(
                 child: CircularProgressIndicator(),
@@ -65,48 +85,16 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                   children: [
                     imageFile == null
                         ? Stack(
-                            alignment: Alignment.bottomRight,
+                            alignment: Alignment.topLeft,
                             children: <Widget>[
                                 CachedNetworkImage(
                                   width: double.infinity,
                                   fit: BoxFit.fill,
-                                  imageUrl: user!.coverImageUrl!,
+                                  imageUrl: another.coverImageUrl!,
                                   placeholder: (context, url) =>
                                       CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.only(right: 10, bottom: 10),
-                                  child: InkWell(
-                                    onTap: () {
-                                      showNewButtomSheet(context);
-                                    },
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 20,
-                                  right: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      child: Icon(
-                                        size: 35,
-                                        Icons.logout,
-                                        color: Colors.white,
-                                      ),
-                                      onTap: () {
-                                        print("Tap logout icon");
-                                        logoutHandle(context: context);
-                                      },
-                                    ),
-                                  ),
                                 ),
                               ])
                         : Stack(alignment: Alignment.bottomRight, children: <
@@ -159,7 +147,7 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                       borderRadius: const BorderRadius.all(Radius.circular(0)),
                       child: Row(
                         children: [
-                          Text("${user!.username ?? "Unknown"}",
+                          Text("${another!.username ?? "Unknown"}",
                               style: TextStyle(
                                   fontSize: 26, fontWeight: FontWeight.w700)),
                           Spacer(),
@@ -170,10 +158,126 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                 borderRadius: BorderRadius.circular(32.0),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               print("Tap on request");
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        contentPadding: EdgeInsets.zero,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5))),
+                                        content: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Tip to ",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Text(
+                                                    "${another.username}",
+                                                    style: TextStyle(
+                                                        fontSize: 22,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black),
+                                                  ),
+                                                  Spacer(),
+                                                  InkWell(
+                                                    onTap: () => {
+                                                      Navigator.pop(context)
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.close,
+                                                      size: 30,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TextField(
+                                                keyboardType:
+                                                          TextInputType
+                                                              .multiline,
+                                                      maxLines: 5,
+                                                decoration: InputDecoration(
+                                                  hintText:
+                                                      "Why you tip to this user?",
+                                                  labelStyle: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.grey),
+                                                ),
+                                                onChanged: (text) {
+                                                  value = text;
+                                                },
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 100,
+                                                    child: TextField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText: "coins",
+                                                        labelStyle: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            color: Colors.grey),
+                                                      ),
+                                                      onChanged: (text) {
+                                                        value = text;
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.attach_money,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 187, 0),
+                                                  ),
+                                                  Spacer(),
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          kColorsSky,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(32.0),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      showSnackBar("Tip success", backgroundColor: Colors.green);
+                                                    },
+                                                    child: Text('confirm'),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ));
                             },
-                            child: const Text('request'),
+                            child: const Text('Tip \$'),
                           ),
                         ],
                       ),
@@ -183,7 +287,7 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: StreamBuilder<List<Post?>>(
                             stream: databaseService
-                                .getStreamListPostOnlyMe(user!.uid),
+                                .getStreamListPostOnlyMe(another.uid),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
                                 print(snapshot.error.toString());
@@ -281,17 +385,12 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                                                 fontStyle: FontStyle.italic,
                                                                                 color: Colors.grey),
                                                                           ),
-                                                                          InkWell(
-                                                                            child:
-                                                                                Text(
-                                                                              "$username",
-                                                                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, decoration: TextDecoration.underline, color: Colors.black),
-                                                                            ),
-                                                                            onTap:
-                                                                                () async {
-                                                                              // ignore: avoid_print
-                                                                              print("Tap on username");
-                                                                            },
+                                                                          Text(
+                                                                            "$username",
+                                                                            style: TextStyle(
+                                                                                fontSize: 22,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                color: Colors.black),
                                                                           ),
                                                                           const Spacer(),
                                                                           Text(

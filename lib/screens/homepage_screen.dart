@@ -85,6 +85,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                             String? username =
                                                 await getUsername(
                                                     snapshot, index);
+                                            User? another = await getUser(snapshot, index);
                                             showDialog<String>(
                                                 context: context,
                                                 builder:
@@ -174,6 +175,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                                           () async {
                                                                         print(
                                                                             "Tap on username");
+                                                                            
+                                                                            Navigator.of(context).pushNamed("/another-profile", arguments: another);
                                                                       },
                                                                     ),
                                                                     Spacer(),
@@ -270,6 +273,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
         );
       },
     );
+  }
+
+  Future<User?> getUser(dynamic snapshot, dynamic index) async {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    User? user;
+    user = await databaseService.getUserFromUid(
+        uid: snapshot.data?[index]?.userId);
+
+    if (user!.username.isNotEmpty) {
+      print("not found");
+    }
+    print(user.username);
+    return user;
   }
 
   Future<String?> getUsername(dynamic snapshot, dynamic index) async {

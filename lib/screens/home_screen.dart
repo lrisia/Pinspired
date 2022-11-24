@@ -33,8 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     UploadScreen(),
     CoinScreen(),
     HomePageScreen(),
-    // RequestScreen(),
-    AnotherProfileScreen(),
+    RequestScreen(),
     MyselfProfileScreen()
   ];
 
