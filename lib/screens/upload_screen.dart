@@ -24,10 +24,16 @@ import '../widgets/input_decoration.dart';
 import '../widgets/main_btn_widget.dart';
 
 List<String> dropdownList = <String>[
-  "Illustator",
+  "Illustation",
   "Drawing",
   "Fashion",
-  "Photo"
+  "Photo",
+  "Food",
+  "Architecture",
+  "Sky",
+  "Nature",
+  "Animal",
+  "Other"
 ];
 
 class UploadScreen extends StatefulWidget {

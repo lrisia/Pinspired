@@ -302,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_dropdown_alert:
+    dependency: "direct main"
+    description:
+      name: flutter_dropdown_alert
+      sha256: "07704c8196d1e5623c703e9b6b6a9120d88af5bd85e6dbf191710de5609c77a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   flutter_launcher_icons:
     dependency: "direct main"
     description:

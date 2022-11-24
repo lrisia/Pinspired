@@ -93,6 +93,7 @@ class _MyselfProfileScreen extends State<MyselfProfileScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: InkWell(
                                       child: Icon(
+                                        size: 35,
                                         Icons.logout,
                                         color: Colors.white,
                                       ),
