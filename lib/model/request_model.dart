@@ -2,7 +2,7 @@ enum PostTag {Waiting, NewRequest, denieded, Accpeted, unknown}
 
 
 class Request {
-  final String description;
+  final String? description;
   final String id;
   final int cost;
   final String user_hirer;
@@ -10,7 +10,7 @@ class Request {
 
   Request({
     required this.id,
-    required this.description,
+    this.description,
     required this.cost,
     required this.user_hirer,
     required this.user_workForHire,
@@ -27,7 +27,7 @@ class Request {
 
           Map<String, dynamic> toMap() => {
         'id': id,
-        'description': description,
+        'description': description ??  "",
         'cost': cost,
         'user_hirer': user_hirer ,
         'user_workForHire': user_workForHire ,

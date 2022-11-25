@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../model/user_model.dart';
 import '../service/database_service.dart';
 
+
 class Box extends StatelessWidget {
   final String user_hirer;
   final String user_workForHire;
@@ -23,11 +24,16 @@ class Box extends StatelessWidget {
     this.cost,
     this.description,
   );
+  User? user;
 
   @override
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+    User? user;
+    String? username;
+    () async => user = await databaseService.getUserFromUid(uid: user_hirer);
+    //  print(user!.username);
 
     return Container(
       decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent), boxShadow: [
@@ -46,7 +52,7 @@ class Box extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "user_hirer tip you",
+                    "User1",
                     style: TextStyle(
                         fontSize: 25,
                         color: Colors.black,

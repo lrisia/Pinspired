@@ -99,10 +99,11 @@ class _RequestScreenState extends State<RequestScreen> {
                                             child: Text('No Request'),
                                           );
                                         }
-
                                         return ListView.builder(
                                             itemCount: snapshot.data?.length,
                                             itemBuilder: (context, index) {
+                                              // String username = getUsername(snapshot, index);
+
                                               if(snapshot.data?[index]?.user_hirer != user?.uid &&
                                               snapshot.data?[index]?.user_workForHire != user?.uid){
                                                 return SizedBox.shrink();
@@ -126,5 +127,20 @@ class _RequestScreenState extends State<RequestScreen> {
                                 ),
                               ))))
                 ]))));
+  }
+
+  Future<String?> getUsername(dynamic snapshot, dynamic index) async {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    User? user;
+    String? username;
+    user = await databaseService.getUserFromUid(
+        uid: snapshot.data?[index]?.userId);
+
+    if (user!.username.isNotEmpty) {
+      username = user.username;
+      print(username);
+    }
+    return username;
   }
 }

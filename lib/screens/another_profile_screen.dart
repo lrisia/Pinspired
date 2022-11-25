@@ -11,11 +11,14 @@ import 'package:cnc_shop/service/storage_service.dart';
 import 'package:cnc_shop/themes/color.dart';
 import 'package:cnc_shop/utils/showSnackBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
+import '../model/request_model.dart';
 import '../model/user_model.dart';
 import '../service/auth_service.dart';
 
@@ -33,6 +36,8 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
   File? imageFile;
   String keyword = '';
   final picker = ImagePicker();
+  String? description;
+  int? money;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +227,7 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                       color: Colors.grey),
                                                 ),
                                                 onChanged: (text) {
-                                                  value = text;
+                                                  description = text;
                                                 },
                                               ),
                                               Row(
@@ -230,6 +235,11 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                   SizedBox(
                                                     width: 100,
                                                     child: TextField(
+                                                      keyboardType: TextInputType.number,
+                                                      inputFormatters: <TextInputFormatter>[
+                                                        FilteringTextInputFormatter.digitsOnly
+                                                        ],
+                                                      
                                                       decoration:
                                                           InputDecoration(
                                                         hintText: "coins",
@@ -242,7 +252,7 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                             color: Colors.grey),
                                                       ),
                                                       onChanged: (text) {
-                                                        value = text;
+                                                        money = int.parse(text);
                                                       },
                                                     ),
                                                   ),
@@ -267,6 +277,17 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                       showSnackBar("Tip success", backgroundColor: Colors.green);
+                                                      Request request = Request(
+                                                        id: Uuid().v1(),
+                                                        description: description,
+                                                        cost: money!,
+                                                        user_hirer: user!.uid,
+                                                        user_workForHire: another.uid,);
+                                                      user?.coin = user!.coin! - money!;
+                                                      another.coin = another.coin! + money!;
+                                                      databaseService.updateUserFromUid(uid: user!.uid, user: user!);
+                                                      databaseService.updateUserFromUid(uid: another.uid, user: another);
+                                                      databaseService.addRequest(request: request);
                                                     },
                                                     child: Text('confirm'),
                                                   ),

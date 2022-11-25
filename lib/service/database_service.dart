@@ -117,6 +117,8 @@ class DatabaseService {
             return Product.fromMap(productMap: doc.data());
           }).toList());
 
+
+
   Stream<List<Request>> getStreamListRequest() => _firebaseStore
       .collection('requests')
       .snapshots()
@@ -131,6 +133,14 @@ class DatabaseService {
     final Map<String, dynamic> postInfo = post.toMap();
 
     await docPost.set(postInfo);
+  }
+
+    Future<void> addRequest({required request}) async {
+    final docPost = _firebaseStore.collection('requests').doc();
+
+    final Map<String, dynamic> requestInfo = request.toMap();
+
+    await docPost.set(requestInfo);
   }
 
   Future<void> addProduct({required product}) async {
