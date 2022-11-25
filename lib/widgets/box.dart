@@ -81,6 +81,8 @@ class Box extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10, 12, 0, 10),
                   child: Text(
                     description,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 57, 57, 57),

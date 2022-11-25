@@ -275,6 +275,11 @@ class _AnotherProfileScreen extends State<AnotherProfileScreen> {
                                                       ),
                                                     ),
                                                     onPressed: () {
+                                                      if (user!.coin! < money!) {
+                                                        Navigator.pop(context);
+                                                        showSnackBar("Tip fail, coin not enought!", backgroundColor: Colors.red);
+                                                        return;
+                                                      }
                                                       Navigator.pop(context);
                                                       showSnackBar("Tip success", backgroundColor: Colors.green);
                                                       Request request = Request(
