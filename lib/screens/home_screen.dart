@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: Icons.home,
     ),
     TabItem(
-      icon: Icons.message,
+      icon: Icons.card_giftcard,
     ),
     TabItem(
       icon: Icons.account_box,
