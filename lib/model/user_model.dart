@@ -4,7 +4,7 @@ class User {
   final String uid;
   final String email;
   final String username;
-  double? coin;
+  int? coin;
   String? coverImageUrl;
   
 

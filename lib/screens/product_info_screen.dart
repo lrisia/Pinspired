@@ -198,7 +198,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                       } else {
                                         user!.coin = (user!.coin! -
                                             _buyamount *
-                                                double.parse(data['price']));
+                                                int.parse(data['price']));
                                         final databaseService =
                                             Provider.of<DatabaseService>(
                                                 context,
